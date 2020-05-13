@@ -1,0 +1,13 @@
+<div class="container">
+  <div class="sidebar">
+    <nz-select
+      [nzMaxTagCount]="3"
+      nzMode="multiple"
+      nzPlaceHolder="Please select"
+      [(ngModel)]="values">
+      <nz-option *ngFor="let item of test" [nzLabel]="item" [nzValue]="item"></nz-option>
+    </nz-select>
+    <p> test </p>
+  </div>
+  <div class="content"></div>
+</div>
