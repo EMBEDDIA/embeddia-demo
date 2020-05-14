@@ -1,1 +1,40 @@
-<p>entity-extraction works!</p>
+<div class="container">
+  <div class="sidebar">
+    <form #analyzerForm="ngForm" (ngSubmit)="submitForm()" class="mw" nz-form nzLayout="vertical">
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="This field is required">
+
+          <nz-form-label nzRequired>Select Analyzers</nz-form-label>
+          <nz-select
+            [(ngModel)]="selectedAnalyzers"
+            [nzMaxTagCount]="2"
+            class="mw"
+            name="selectedAnalyzers"
+            nzMode="multiple"
+            required>
+            <nz-option *ngFor="let item of analyzers" [nzLabel]="item.display_name"
+                       [nzValue]="item.value"></nz-option>
+          </nz-select>
+
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+
+        <nz-form-label nzRequired>Enter Text</nz-form-label>
+        <nz-form-control nzErrorTip="This field is required">
+            <textarea [(ngModel)]="text" name="text" nz-input placeholder="Text to analyze"
+                      required
+                      rows="8"></textarea>
+
+        </nz-form-control>
+      </nz-form-item>
+
+      <button [disabled]="!analyzerForm.form.valid" class="mw" nz-button nzType="primary" [nzLoading]="isLoading">Analyze</button>
+    </form>
+  </div>
+  <div class="content">
+
+  </div>
+</div>

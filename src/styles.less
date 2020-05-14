@@ -1,32 +1,51 @@
 // @import "~ng-zorro-antd/ng-zorro-antd.dark.less";
- @import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
-.flex-row{
+@import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
+@import "library-overrides";
+.flex-row {
   display: flex;
   flex-direction: row;
 }
-.flex-col{
+
+.flex-col {
   display: flex;
   flex-direction: column;
 }
-.container{
-  padding: 20px;
+
+.container {
   height: 100%;
   display: flex;
   flex-direction: row;
-  .sidebar{
+  background-color: rgb(77, 77, 77);
+
+  .sidebar {
+    padding: 20px;
     display: flex;
     flex-direction: column;
-    width: 380px;
+    min-width: 460px;
+    max-width: 460px;
+    background-color: rgb(230, 230, 230);
   }
-  .content{
+
+  .content {
+    padding-top: 20%;
     display: flex;
+    flex-direction: column;
     width: 100%;
     height: 100%;
+    align-items: center;
+    h1{
+      color: white;
+    }
   }
 }
-.mh{
+
+.mh {
   height: 100%;
 }
+.mw{
+  width: 100%;
+}
+
 /*@component-background: hsv(0, 0, 95%);
 @border-color-base: hsv(0, 0, 25%); // base border outline a component*/
 /*@border-color-split: hsv(0, 0, 94%); // split border inside a component

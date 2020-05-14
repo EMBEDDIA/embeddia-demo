@@ -81,6 +81,7 @@ import { HateSpeechDetectionComponent } from './hate-speech-detection/hate-speec
 import { EntityExtractionComponent } from './entity-extraction/entity-extraction.component';
 import { ArticleGenerationComponent } from './article-generation/article-generation.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
+import { NzSpaceModule } from 'ng-zorro-antd/space';
 @NgModule({
   declarations: [
     AppComponent,
@@ -159,6 +160,7 @@ import { DashboardComponent } from './dashboard/dashboard.component';
     NzUploadModule,
     NzWaveModule,
     NzResizableModule,
+    NzSpaceModule,
     BrowserAnimationsModule
   ],
   providers: [{ provide: NZ_I18N, useValue: en_GB }],
