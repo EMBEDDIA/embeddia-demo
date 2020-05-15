@@ -41,6 +41,7 @@ export class HateSpeechDetectionComponent implements OnInit {
 
   submitForm() {
     this.isLoading = true;
+    this.results = [];
     this.analyzersService.analyzeHateSpeech({analyzers: this.selectedAnalyzers, text: this.text}).subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
         for (const key in x) {

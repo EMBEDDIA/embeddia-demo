@@ -26,15 +26,34 @@
         <nz-form-control nzErrorTip="This field is required">
             <textarea [(ngModel)]="text" name="text" nz-input placeholder="Text to analyze"
                       required
-                      rows="8"></textarea>
+                      rows="12"></textarea>
 
         </nz-form-control>
       </nz-form-item>
 
-      <button [disabled]="!analyzerForm.form.valid" class="mw" nz-button nzType="primary" [nzLoading]="isLoading">Analyze</button>
+      <button [disabled]="!analyzerForm.form.valid" [nzLoading]="isLoading" class="mw" nz-button nzType="primary">
+        Analyze
+      </button>
     </form>
   </div>
   <div class="content">
-
+    <div class="legend" *ngIf="resultKeys?.length > 0">
+      <nz-tag *ngFor="let color of COLORKEYS" [nzColor]="COLORS[color]">{{color}}
+      </nz-tag>
+    </div>
+    <div class="container">
+      <div *ngFor="let key of resultKeys" class="flex-col align-center">
+        <h1>{{key}}</h1>
+        <div class="tag-wrapper flex-row">
+          <ng-container *ngFor="let item of results[key]">
+            <nz-tag *ngIf="item.tag" nzColor="{{COLORS['KEYWORD']}}" nz-tooltip nzTooltipTitle="KEYWORD">{{item.tag}}
+            </nz-tag>
+            <nz-tag *ngIf="item.str_val" [nzColor]="COLORS[item.fact]" [nzTooltipTitle]="item.fact"
+                    nz-tooltip>{{item.str_val}}
+            </nz-tag>
+          </ng-container>
+        </div>
+      </div>
+    </div>
   </div>
 </div>

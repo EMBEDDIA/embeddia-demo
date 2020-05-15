@@ -26,7 +26,7 @@
         <nz-form-control nzErrorTip="This field is required">
             <textarea [(ngModel)]="text" name="text" nz-input placeholder="Text to analyze"
                       required
-                      rows="8"></textarea>
+                      rows="12"></textarea>
 
         </nz-form-control>
       </nz-form-item>
@@ -38,7 +38,7 @@
   </div>
 
   <div class="content">
-    <nz-space [nzSize]="50" nzDirection="vertical">
+    <nz-space [nzSize]="50" nzDirection="vertical" class="container">
       <nz-space-item *ngFor="let item of results" class="flex-row status-block">
         <h1>{{item.key}}</h1>
         <nz-tag *ngIf="item.offensive" nzColor="#ef5350">BLOCK</nz-tag>

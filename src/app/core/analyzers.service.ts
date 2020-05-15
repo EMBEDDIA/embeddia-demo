@@ -6,6 +6,7 @@ import {Observable} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
 import {AnalyzersOptions} from '../shared/types/AnalyzersOptions';
 import {HateSpeechResponse} from '../shared/types/HateSpeechResponse';
+import {KeywordExtractionResponse} from '../shared/types/KeywordExtractionResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -32,12 +33,12 @@ export class AnalyzersService {
       catchError(this.logService.handleError<HateSpeechResponse>('analyzeHateSpeech')));
   }
 
-  analyzeKeywords(body: any): Observable<HateSpeechResponse | HttpErrorResponse> {
-    return this.http.post<HateSpeechResponse>(
+  analyzeKeywords(body: any): Observable<KeywordExtractionResponse | HttpErrorResponse> {
+    return this.http.post<KeywordExtractionResponse>(
       `${this.apiUrl}/analyzers/`, body
     ).pipe(
       tap(e => this.logService.logStatus(e, 'analyzeKeywords')),
-      catchError(this.logService.handleError<HateSpeechResponse>('analyzeKeywords')));
+      catchError(this.logService.handleError<KeywordExtractionResponse>('analyzeKeywords')));
   }
 
 }

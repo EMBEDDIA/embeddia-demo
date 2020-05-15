@@ -1,12 +1,23 @@
-.status-block {
-  align-items: center;
-  line-height: 2;
-  min-width: 555px;
-  max-width: 555px;
-  justify-content: space-between;
+.content {
+  .tag-wrapper {
+    flex-wrap: wrap;
 
-  nz-space-item h1 {
-    margin-bottom: 0;
+    nz-tag {
+      margin: 5px;
+    }
   }
 
+  .legend {
+    padding: 0 10%;
+    display: flex;
+    justify-content: flex-end;
+
+    nz-tag {
+      margin: 5px;
+    }
+  }
+
+  .container > div {
+    margin-top: 20px;
+  }
 }
