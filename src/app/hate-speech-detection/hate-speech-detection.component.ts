@@ -1,7 +1,6 @@
 import {Component, OnInit} from '@angular/core';
 import {AnalyzersService} from '../core/analyzers.service';
 import {LogService} from '../core/log.service';
-import {NgForm} from '@angular/forms';
 import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
@@ -45,9 +44,10 @@ export class HateSpeechDetectionComponent implements OnInit {
     this.analyzersService.analyzeHateSpeech({analyzers: this.selectedAnalyzers, text: this.text}).subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
         for (const key in x) {
-          this.results.push({key, offensive: x[key].length > 0});
+          if (x.hasOwnProperty(key)) {
+            this.results.push({key, offensive: x[key].length > 0});
+          }
         }
-        console.log(this.results);
       } else if (x instanceof HttpErrorResponse) {
         this.logService.messageHttpError(x);
       }

@@ -77,7 +77,6 @@ export class EntityExtractionComponent implements OnInit {
             }
           }
         }
-        console.log(this.results);
         this.resultKeys = Object.keys(this.results);
       } else if (x instanceof HttpErrorResponse) {
         this.logService.messageHttpError(x);
