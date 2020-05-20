@@ -6,7 +6,7 @@
   <div class="content">
     <div class="container">
       <h1>Comment Section Health</h1>
-      <nz-space nzSize="large" class="m-5">
+      <nz-space class="m-5" nzSize="large">
         <nz-space-item class="flex-col overall-health align-center">
           <h1>Overall Health</h1>
           <nz-progress [nzFormat]="formatComments" [nzPercent]="81" [nzStrokeLinecap]="strokeCap"
@@ -48,7 +48,7 @@
       </nz-space>
 
       <h1>Trending Entities & Keywords in Articles
-        <nz-space nzSize="middle">
+        <nz-space [hidden]="!switchValue" nzSize="middle">
           <nz-space-item>
             <nz-tag *ngIf="COLORS" nzColor="{{COLORS['PER']}}">PERSON</nz-tag>
           </nz-space-item>
@@ -60,13 +60,33 @@
           </nz-space-item>
         </nz-space>
       </h1>
-      <nz-space class="flex-col tag-container" nzDirection="vertical">
+      <div class="flex-row mw entities-actions">
+        <nz-switch (ngModelChange)="switchView($event)" [(ngModel)]="switchValue" class="switch-views"></nz-switch>
+        <nz-select (ngModelChange)="factSelected($event)" [(ngModel)]="selectedFact" [hidden]="switchValue"
+                   class="fact-select" nzPlaceHolder="Choose">
+          <nz-option *ngFor="let key of this.tagsKeys" nzLabel="{{key}}" nzValue="{{key}}"></nz-option>
+        </nz-select>
+      </div>
+      <div [hidden]="switchValue" class="flex-col mh mw dark">
+        <ngx-charts-bar-horizontal *ngIf="graphData.length>0"
+                                   [results]="graphData"
+                                   [roundEdges]="false"
+                                   [showXAxisLabel]="showXAxisLabel"
+                                   [showYAxisLabel]="showYAxisLabel"
+                                   [xAxisLabel]="xAxisLabel"
+                                   [xAxis]="showXAxis"
+                                   [yAxisLabel]="yAxisLabel"
+                                   [yAxis]="showYAxis">
+        </ngx-charts-bar-horizontal>
+      </div>
+      <nz-space [hidden]="!switchValue" class="flex-col tag-container" nzDirection="vertical">
         <nz-space-item *ngFor="let item of tagsKeys" class="flex-row flex-wrap">
           <nz-tag *ngFor="let tag of tags[item]" nzColor="{{COLORS[item]}}">
-            {{tag.tag}}
+            {{tag.name}}
           </nz-tag>
         </nz-space-item>
       </nz-space>
+
     </div>
   </div>
 </div>

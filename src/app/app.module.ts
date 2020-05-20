@@ -25,6 +25,8 @@ import {ArticleGenerationComponent} from './article-generation/article-generatio
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {NzSpaceModule} from 'ng-zorro-antd/space';
 import {NzMenuModule, NzProgressModule} from 'ng-zorro-antd';
+import {NgxChartsModule} from '@swimlane/ngx-charts';
+import {NzSwitchModule} from 'ng-zorro-antd/switch';
 
 registerLocaleData(en);
 
@@ -55,6 +57,8 @@ registerLocaleData(en);
     NzSpinModule,
     NzSpaceModule,
     NzProgressModule,
+    NzSwitchModule,
+    NgxChartsModule,
     BrowserAnimationsModule
   ],
   providers: [{provide: NZ_I18N, useValue: en_GB}],

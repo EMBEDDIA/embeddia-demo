@@ -14,36 +14,60 @@ export class DashboardComponent implements OnInit {
   tags = {
     PER: [
       {
-        tag: 'Edgar',
-        count: 345
+        name: 'Edgar',
+        value: 345
       },
     ],
 
     LOC: [
       {
-        tag: 'Läti',
-        count: 34
+        name: 'Läti',
+        value: 34
       }
     ],
 
     KEYWORD: [
       {
-        tag: 'Kriis',
-        count: 234
+        name: 'Kriis',
+        value: 234
       }
     ]
   };
   tagsKeys = Object.keys(this.tags);
 
+  // options
+  showXAxis = true;
+  showYAxis = true;
+  showXAxisLabel = true;
+  xAxisLabel = 'Count';
+  showYAxisLabel = true;
+  yAxisLabel = 'Entities & Keywords';
+  selectedFact;
+  graphData = [];
+  switchValue;
+
   constructor() {
   }
 
   ngOnInit(): void {
-    for (let f = 0; f <= 20; f++) {
-      this.tags.PER.push({tag: Math.random().toString(36).substring(Math.random() * 10), count: Math.random()});
-      this.tags.KEYWORD.push({tag: Math.random().toString(36).substring(Math.random() * 10), count: Math.random()});
-      this.tags.LOC.push({tag: Math.random().toString(36).substring(Math.random() * 10), count: Math.random()});
+    for (let f = 0; f <= 10; f++) {
+      this.tags.PER.push({name: Math.random().toString(36).substring(Math.random() * 10), value: Math.random() * 100});
+      this.tags.KEYWORD.push({name: Math.random().toString(36).substring(Math.random() * 10), value: Math.random() * 100});
+      this.tags.LOC.push({name: Math.random().toString(36).substring(Math.random() * 10), value: Math.random() * 100});
     }
+    this.tags.PER = this.tags.PER.sort((a, b) => (a.value < b.value) ? 1 : -1);
+    this.tags.KEYWORD = this.tags.KEYWORD.sort((a, b) => (a.value < b.value) ? 1 : -1);
+    this.tags.LOC = this.tags.LOC.sort((a, b) => (a.value < b.value) ? 1 : -1);
+    console.log(this.tags);
+
+  }
+
+  factSelected(val) {
+    this.graphData = this.tags[val];
+  }
+
+  switchView(val) {
+    console.log(val);
   }
 
 }
