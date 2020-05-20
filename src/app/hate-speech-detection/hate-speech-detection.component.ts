@@ -9,18 +9,18 @@ import {HttpErrorResponse} from '@angular/common/http';
   styleUrls: ['./hate-speech-detection.component.less']
 })
 export class HateSpeechDetectionComponent implements OnInit {
-  selectedAnalyzers: string[] = [];
   text: string;
   analyzers: { value: string, display_name: string }[] = [
     {
-      value: 'QMUL Hatespeech Detector',
+      value: 'QMUL Comment Analyzer',
       display_name: 'QMUL Hatespeech Detector'
     },
     {
-      value: 'TEXTA Hatespeech Tagger',
+      value: 'TEXTA Comment Analyzer',
       display_name: 'TEXTA Hatespeech Tagger',
     }];
-  results: { key: string, offensive: boolean }[] = [];
+  analyzersDisplay: { value: string, display_name: string }[] = [];
+  results: string[] = [];
   isLoading = false;
 
   constructor(private analyzersService: AnalyzersService,
@@ -41,13 +41,11 @@ export class HateSpeechDetectionComponent implements OnInit {
   submitForm() {
     this.isLoading = true;
     this.results = [];
-    this.analyzersService.analyzeHateSpeech({analyzers: this.selectedAnalyzers, text: this.text}).subscribe(x => {
+    this.analyzersDisplay = [];
+    this.analyzersService.analyzeHateSpeech({text: this.text}).subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
-        for (const key in x) {
-          if (x.hasOwnProperty(key)) {
-            this.results.push({key, offensive: x[key].length > 0});
-          }
-        }
+        this.analyzersDisplay = this.analyzers;
+        this.results = x.tags.map(y => y.source);
       } else if (x instanceof HttpErrorResponse) {
         this.logService.messageHttpError(x);
       }

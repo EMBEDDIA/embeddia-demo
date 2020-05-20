@@ -3,30 +3,12 @@
     <form #analyzerForm="ngForm" (ngSubmit)="submitForm()" class="mw" nz-form nzLayout="vertical">
 
       <nz-form-item>
-        <nz-form-control nzErrorTip="This field is required">
-
-          <nz-form-label nzRequired>Select Analyzers</nz-form-label>
-          <nz-select
-            [(ngModel)]="selectedAnalyzers"
-            [nzMaxTagCount]="2"
-            class="mw"
-            name="selectedAnalyzers"
-            nzMode="multiple"
-            required>
-            <nz-option *ngFor="let item of analyzers" [nzLabel]="item.display_name"
-                       [nzValue]="item.value"></nz-option>
-          </nz-select>
-
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
 
         <nz-form-label nzRequired>Enter Text</nz-form-label>
         <nz-form-control nzErrorTip="This field is required">
             <textarea [(ngModel)]="text" name="text" nz-input placeholder="Text to analyze"
                       required
-                      rows="12"></textarea>
+                      rows="22"></textarea>
 
         </nz-form-control>
       </nz-form-item>
@@ -37,23 +19,29 @@
     </form>
   </div>
   <div class="content">
-    <div class="legend" *ngIf="resultKeys?.length > 0">
-      <nz-tag *ngFor="let color of COLORKEYS" [nzColor]="COLORS[color]">{{color}}
-      </nz-tag>
-    </div>
-    <div class="container">
-      <div *ngFor="let key of resultKeys" class="flex-col align-center">
-        <h1>{{key}}</h1>
-        <div class="tag-wrapper flex-row">
-          <ng-container *ngFor="let item of results[key]">
-            <nz-tag *ngIf="item.tag" nzColor="{{COLORS['KEYWORD']}}" nz-tooltip nzTooltipTitle="KEYWORD">{{item.tag}}
-            </nz-tag>
-            <nz-tag *ngIf="item.str_val" [nzColor]="COLORS[item.fact]" [nzTooltipTitle]="item.fact"
-                    nz-tooltip>{{item.str_val}}
-            </nz-tag>
+    <nz-spin *ngIf="isLoading" [nzSize]="'large'" [nzSpinning]="isLoading" nzSimple></nz-spin>
+    <ng-container *ngIf="resultKeys?.length > 0 && !this.isLoading">
+      <div class="legend">
+        <nz-tag *ngFor="let color of COLORKEYS" [nzColor]="COLORS[color]">{{color}}
+        </nz-tag>
+      </div>
+      <div class="container">
+        <div *ngFor="let key of resultKeys" class="flex-col align-center">
+          <ng-container *ngIf="results[key.value].length > 0">
+            <h1>{{key.display_name}}</h1>
+            <div class="tag-wrapper flex-row">
+              <ng-container *ngFor="let item of results[key.value]">
+                <nz-tag *ngIf="item.tag" nz-tooltip nzColor="{{COLORS['KEYWORD']}}"
+                        nzTooltipTitle="KEYWORD">{{item.tag}}
+                </nz-tag>
+                <nz-tag *ngIf="item.type && item.entity" [nzColor]="COLORS[item.type]" [nzTooltipTitle]="item.type"
+                        nz-tooltip>{{item.entity}}
+                </nz-tag>
+              </ng-container>
+            </div>
           </ng-container>
         </div>
       </div>
-    </div>
+    </ng-container>
   </div>
 </div>

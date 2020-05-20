@@ -4,8 +4,8 @@ import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {LogService} from './log.service';
 import {Observable} from 'rxjs';
 import {catchError, tap} from 'rxjs/operators';
-import {GeneratorsOptions} from '../shared/types/GeneratorsOptions';
-import {GeneratorsResponse} from '../shared/types/GeneratorsResponse';
+import {GeneratorOptions} from '../shared/types/GeneratorOptions';
+import {GeneratorResponse} from '../shared/types/GeneratorResponse';
 
 @Injectable({
   providedIn: 'root'
@@ -17,19 +17,19 @@ export class GeneratorsService {
   constructor(private http: HttpClient, private logService: LogService) {
   }
 
-  getGeneratorsOptions(): Observable<GeneratorsOptions | HttpErrorResponse> {
-    return this.http.options<GeneratorsOptions>(
-      `${this.apiUrl}/generators/`
+  getGeneratorsOptions(): Observable<GeneratorOptions | HttpErrorResponse> {
+    return this.http.options<GeneratorOptions>(
+      `${this.apiUrl}/article_generator/`
     ).pipe(
       tap(e => this.logService.logStatus(e, 'getGeneratorsOptions')),
-      catchError(this.logService.handleError<GeneratorsOptions>('getGeneratorsOptions')));
+      catchError(this.logService.handleError<GeneratorOptions>('getGeneratorsOptions')));
   }
 
-  generateText(body: any): Observable<GeneratorsResponse | HttpErrorResponse> {
-    return this.http.post<GeneratorsResponse>(
-      `${this.apiUrl}/generators/`, body
+  generateText(body: any): Observable<GeneratorResponse | HttpErrorResponse> {
+    return this.http.post<GeneratorResponse>(
+      `${this.apiUrl}/article_generator/`, body
     ).pipe(
       tap(e => this.logService.logStatus(e, 'generateText')),
-      catchError(this.logService.handleError<GeneratorsResponse>('generateText')));
+      catchError(this.logService.handleError<GeneratorResponse>('generateText')));
   }
 }

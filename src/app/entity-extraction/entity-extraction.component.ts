@@ -2,7 +2,6 @@ import {Component, OnInit} from '@angular/core';
 import {AnalyzersService} from '../core/analyzers.service';
 import {LogService} from '../core/log.service';
 import {HttpErrorResponse} from '@angular/common/http';
-import {HYBRID, JSI, MLP} from '../shared/types/KeywordExtractionResponse';
 import {UtilityFunctions} from '../shared/UtilityFunctions';
 
 @Component({
@@ -11,40 +10,28 @@ import {UtilityFunctions} from '../shared/UtilityFunctions';
   styleUrls: ['./entity-extraction.component.less']
 })
 export class EntityExtractionComponent implements OnInit {
-  readonly COLORS = {
-    ORG: '#b71c1c',
-    PER: '#880e4f',
-    GPE: '#4a148c',
-    LOC: '#311b92',
-    ADDR: '#0d47a1',
-    COMPANY: '#006064',
-    PHO: '#1b5e20',
-    EMAIL: '#3e2723',
-    KEYWORD: '#263238'
-  };
+  readonly COLORS = UtilityFunctions.COLORS;
   readonly COLORKEYS = Object.keys(this.COLORS);
-  selectedAnalyzers: string[] = [];
   text: string;
-  readonly JSI = 'JSI Keyword Extractor';
+  readonly JSI = 'JSI Keyword Analyzer';
   readonly HYBRID = 'TEXTA Hybrid Tagger';
-  readonly MLP = 'TEXTA MLP';
+  readonly MLP = 'MLP';
   analyzers: { value: string, display_name: string }[] = [
     {
       value: this.JSI,
       display_name: this.JSI
     },
     {
-      value: this.HYBRID,
-      display_name: this.HYBRID,
+      value: this.MLP,
+      display_name: 'TEXTA ' + this.MLP,
     },
     {
-      value: this.MLP,
-      display_name: this.MLP,
+      value: this.HYBRID,
+      display_name: this.HYBRID,
     }];
-  results: { [x: string]: JSI[] | HYBRID[] | any[] } = {};
-  resultKeys;
+  results: { [x: string]: any[] } = {};
+  resultKeys: { value: string, display_name: string }[];
   isLoading = false;
-
   constructor(private analyzersService: AnalyzersService,
               private logService: LogService) {
 
@@ -63,36 +50,20 @@ export class EntityExtractionComponent implements OnInit {
   submitForm() {
     this.isLoading = true;
     this.results = {};
-    this.analyzersService.analyzeKeywords({analyzers: this.selectedAnalyzers, text: this.text}).subscribe(x => {
+    this.resultKeys = this.analyzers;
+    this.analyzersService.analyzeKeywords({text: this.text}).subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
-        for (const key in x) {
-          if (x.hasOwnProperty(key)) {
-            const accessor = x[key];
-            if (this.isMLP(accessor)) {
-              this.results[this.MLP] = UtilityFunctions.getDistinctByProperty(accessor.texta_facts, ((y) => y.str_val));
-            } else if (this.isHYBRID(accessor)) {
-              this.results[this.HYBRID] = accessor;
-            } else if (this.isJSI(accessor)) {
-              this.results[this.JSI] = accessor;
-            }
-          }
+        if (x.entities) {
+          this.results[this.MLP] = UtilityFunctions.getDistinctByProperty(x.entities, (y) => y.entity);
         }
-        this.resultKeys = Object.keys(this.results);
+        if (x.tags) {
+          this.results[this.JSI] = UtilityFunctions.getDistinctByProperty(x.tags.filter(y => y.source === this.JSI), (y) => y.tag);
+          this.results[this.HYBRID] = UtilityFunctions.getDistinctByProperty(x.tags.filter(y => y.source === this.HYBRID), (y) => y.tag);
+        }
+        console.log(this.results);
       } else if (x instanceof HttpErrorResponse) {
         this.logService.messageHttpError(x);
       }
     }, () => null, () => this.isLoading = false);
-  }
-
-  isMLP(val: JSI[] | MLP | HYBRID[]): val is MLP {
-    return (val as MLP).texta_facts !== undefined;
-  }
-
-  isJSI(val: JSI[] | MLP | HYBRID[]): val is JSI[] {
-    return (val as JSI[]).length > 0 && val[0].tag !== undefined;
-  }
-
-  isHYBRID(val: JSI[] | MLP | HYBRID[]): val is HYBRID[] {
-    return (val as HYBRID[]).length > 0 && val[0].probability !== undefined;
   }
 }

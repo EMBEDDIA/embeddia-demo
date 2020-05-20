@@ -27,7 +27,7 @@ export class AnalyzersService {
 
   analyzeHateSpeech(body: any): Observable<HateSpeechResponse | HttpErrorResponse> {
     return this.http.post<HateSpeechResponse>(
-      `${this.apiUrl}/analyzers/`, body
+      `${this.apiUrl}/comment_analyzer/`, body
     ).pipe(
       tap(e => this.logService.logStatus(e, 'analyzeHateSpeech')),
       catchError(this.logService.handleError<HateSpeechResponse>('analyzeHateSpeech')));
@@ -35,7 +35,7 @@ export class AnalyzersService {
 
   analyzeKeywords(body: any): Observable<KeywordExtractionResponse | HttpErrorResponse> {
     return this.http.post<KeywordExtractionResponse>(
-      `${this.apiUrl}/analyzers/`, body
+      `${this.apiUrl}/article_analyzer/`, body
     ).pipe(
       tap(e => this.logService.logStatus(e, 'analyzeKeywords')),
       catchError(this.logService.handleError<KeywordExtractionResponse>('analyzeKeywords')));

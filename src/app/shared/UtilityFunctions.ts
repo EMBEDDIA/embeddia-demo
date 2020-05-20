@@ -1,5 +1,16 @@
-
 export class UtilityFunctions {
+  static readonly COLORS = {
+    ORG: '#b71c1c',
+    PER: '#880e4f',
+    GPE: '#4a148c',
+    LOC: '#311b92',
+    ADDR: '#0d47a1',
+    COMPANY: '#006064',
+    PHO: '#1b5e20',
+    EMAIL: '#3e2723',
+    KEYWORD: '#263238'
+  };
+
   static typeGuard<T>(o, className: { new(...args: any[]): T }): o is T {
     return o instanceof className;
   }
@@ -7,6 +18,7 @@ export class UtilityFunctions {
   static propertiesToArray<T, K extends keyof T>(o: T, propertyNames: K[]): T[K][] {
     return propertyNames.map(n => o[n]);
   }
+
   /*
   * check if each array element exists in both arrays for each element
   * */

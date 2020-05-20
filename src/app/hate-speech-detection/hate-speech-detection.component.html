@@ -1,32 +1,13 @@
 <div class="container">
   <div class="sidebar">
     <form #analyzerForm="ngForm" (ngSubmit)="submitForm()" class="mw" nz-form nzLayout="vertical">
-
-      <nz-form-item>
-        <nz-form-control nzErrorTip="This field is required">
-
-          <nz-form-label nzRequired>Select Analyzers</nz-form-label>
-          <nz-select
-            [(ngModel)]="selectedAnalyzers"
-            [nzMaxTagCount]="2"
-            class="mw"
-            name="selectedAnalyzers"
-            nzMode="multiple"
-            required>
-            <nz-option *ngFor="let item of analyzers" [nzLabel]="item.display_name"
-                       [nzValue]="item.value"></nz-option>
-          </nz-select>
-
-        </nz-form-control>
-      </nz-form-item>
-
       <nz-form-item>
 
         <nz-form-label nzRequired>Enter Text</nz-form-label>
         <nz-form-control nzErrorTip="This field is required">
             <textarea [(ngModel)]="text" name="text" nz-input placeholder="Text to analyze"
                       required
-                      rows="12"></textarea>
+                      rows="22"></textarea>
 
         </nz-form-control>
       </nz-form-item>
@@ -39,10 +20,11 @@
 
   <div class="content">
     <nz-space [nzSize]="50" nzDirection="vertical" class="container">
-      <nz-space-item *ngFor="let item of results" class="flex-row status-block">
-        <h1>{{item.key}}</h1>
-        <nz-tag *ngIf="item.offensive" nzColor="#ef5350">BLOCK</nz-tag>
-        <nz-tag *ngIf="!item.offensive" nzColor="#66bb6a">OK</nz-tag>
+      <nz-spin *ngIf="isLoading" [nzSize]="'large'" [nzSpinning]="isLoading" nzSimple></nz-spin>
+      <nz-space-item *ngFor="let item of analyzersDisplay" class="flex-row status-block">
+        <h1>{{item.display_name}}</h1>
+        <nz-tag *ngIf="this.results.includes(item.value)" nzColor="#ef5350">BLOCK</nz-tag>
+        <nz-tag *ngIf="!this.results.includes(item.value)" nzColor="#66bb6a">OK</nz-tag>
       </nz-space-item>
     </nz-space>
   </div>

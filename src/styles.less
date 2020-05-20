@@ -1,5 +1,5 @@
-// @import "~ng-zorro-antd/ng-zorro-antd.dark.less";
-@import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
+@import "~ng-zorro-antd/ng-zorro-antd.dark.less";
+// @import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
 @import "library-overrides";
 .flex-row {
   display: flex;
@@ -15,27 +15,22 @@
   height: 100%;
   display: flex;
   flex-direction: row;
-  background-color: rgb(77, 77, 77);
 
   .sidebar {
     padding: 20px;
     display: flex;
     flex-direction: column;
     overflow: auto;
-    min-width: 460px;
-    max-width: 460px;
-    background-color: rgb(230, 230, 230);
+    min-width: 400px;
+    max-width: 400px;
   }
 
   .content {
     display: flex;
     flex-direction: column;
     width: 100%;
-    h1{
-      color: white;
-    }
     .container{
-      padding: 10%;
+      padding: 5%;
       display: flex;
       flex-direction: column;
       width: 100%;
@@ -54,3 +49,7 @@
 .align-center{
   align-items: center;
 }
+.flex-wrap{
+  flex-wrap: wrap;
+}
+@black: rgb(20, 20, 20);

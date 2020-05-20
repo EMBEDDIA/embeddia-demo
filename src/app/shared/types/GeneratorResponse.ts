@@ -1,5 +1,5 @@
 
-export interface GeneratorsResponse {
+export interface GeneratorResponse {
   location: string;
   location_type: string;
   language: string;

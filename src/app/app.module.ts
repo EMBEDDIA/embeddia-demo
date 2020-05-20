@@ -24,6 +24,7 @@ import {EntityExtractionComponent} from './entity-extraction/entity-extraction.c
 import {ArticleGenerationComponent} from './article-generation/article-generation.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {NzSpaceModule} from 'ng-zorro-antd/space';
+import {NzMenuModule, NzProgressModule} from 'ng-zorro-antd';
 
 registerLocaleData(en);
 
@@ -48,9 +49,12 @@ registerLocaleData(en);
     NzSelectModule,
     NzSpinModule,
     NzTagModule,
+    NzMenuModule,
     NzToolTipModule,
     NzTypographyModule,
+    NzSpinModule,
     NzSpaceModule,
+    NzProgressModule,
     BrowserAnimationsModule
   ],
   providers: [{provide: NZ_I18N, useValue: en_GB}],

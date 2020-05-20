@@ -47,7 +47,7 @@ export interface Actions {
   POST: POST;
 }
 
-export interface GeneratorsOptions {
+export interface GeneratorOptions {
   name: string;
   description: string;
   renders: string[];

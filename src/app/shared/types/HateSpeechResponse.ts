@@ -1,3 +1,4 @@
 export interface HateSpeechResponse {
-  [key: string]: { tag: string, probability: number }[];
+  tags: { tag: string, probability: number, source: string }[];
+  text: string;
 }
