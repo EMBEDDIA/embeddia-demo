@@ -27,7 +27,7 @@ import {NzSpaceModule} from 'ng-zorro-antd/space';
 import {NzMenuModule, NzProgressModule} from 'ng-zorro-antd';
 import {NgxChartsModule} from '@swimlane/ngx-charts';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
-
+import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 registerLocaleData(en);
 
 @NgModule({
@@ -47,6 +47,7 @@ registerLocaleData(en);
     NzFormModule,
     NzInputModule,
     NzLayoutModule,
+    NzDatePickerModule,
     NzMessageModule,
     NzSelectModule,
     NzSpinModule,
