@@ -1,5 +1,5 @@
 export const environment = {
-  apiHost: 'http://dev.texta.ee:8090',
+  apiHost: 'REST_API_URL_REPLACE',
   apiBasePath: '',
   production: true
 };
