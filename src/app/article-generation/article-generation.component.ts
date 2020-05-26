@@ -28,8 +28,11 @@ export class ArticleGenerationComponent implements OnInit {
     this.generatorsService.getGeneratorsOptions().subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
         this.dataset = x.actions.POST.dataset.choices;
+        this.selectedDataset = this.dataset[0].value;
         this.location = x.actions.POST.location.choices;
+        this.selectedLocation = this.location[0].value;
         this.language = x.actions.POST.language.choices;
+        this.selectedLanguage = this.language[0].value;
       } else if (x instanceof HttpErrorResponse) {
         this.logService.messageHttpError(x);
       }

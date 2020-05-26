@@ -1,3 +1,4 @@
+@font-size: calc(14px + 5 * ((100vw - 320px) / 680));
 .content {
   .tag-wrapper {
     flex-wrap: wrap;
@@ -12,18 +13,25 @@
     display: flex;
     justify-content: flex-end;
     flex-wrap: wrap;
+
     nz-tag {
       margin: 5px;
     }
   }
-  nz-spin{
+
+  nz-spin {
     padding: 10%;
     width: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
   }
+
   .container > div {
-    margin-top: 20px;
+    margin-top: 5%;
+  }
+
+  h1 {
+    font-size: @font-size;
   }
 }

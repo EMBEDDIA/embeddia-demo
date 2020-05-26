@@ -19,7 +19,7 @@ export class AnalyzersService {
 
   getAnalyzersOptions(): Observable<AnalyzersOptions | HttpErrorResponse> {
     return this.http.options<AnalyzersOptions>(
-      `${this.apiUrl}/analyzers/`
+      `${this.apiUrl}/article_analyzer/`
     ).pipe(
       tap(e => this.logService.logStatus(e, 'getAnalyzersOptions')),
       catchError(this.logService.handleError<AnalyzersOptions>('getAnalyzersOptions')));

@@ -20,17 +20,16 @@
   </div>
   <div class="content">
     <nz-spin *ngIf="isLoading" [nzSize]="'large'" [nzSpinning]="isLoading" nzSimple></nz-spin>
-    <ng-container *ngIf="resultKeys?.length > 0 && !this.isLoading">
+    <ng-container *ngIf="resultSource?.length > 0 && !this.isLoading">
       <div class="legend">
         <nz-tag *ngFor="let color of COLORKEYS" [nzColor]="COLORS[color]">{{color}}
         </nz-tag>
       </div>
       <div class="container">
-        <div *ngFor="let key of resultKeys" class="flex-col align-center">
-          <ng-container *ngIf="results[key.value].length > 0">
-            <h1>{{key.display_name}}</h1>
+        <div *ngFor="let key of resultSource" class="flex-col align-center">
+            <h1>{{key}}</h1>
             <div class="tag-wrapper flex-row">
-              <ng-container *ngFor="let item of results[key.value]">
+              <ng-container *ngFor="let item of results[key]">
                 <nz-tag *ngIf="item.tag" nz-tooltip nzColor="{{COLORS['KEYWORD']}}"
                         nzTooltipTitle="KEYWORD">{{item.tag}}
                 </nz-tag>
@@ -39,7 +38,6 @@
                 </nz-tag>
               </ng-container>
             </div>
-          </ng-container>
         </div>
       </div>
     </ng-container>

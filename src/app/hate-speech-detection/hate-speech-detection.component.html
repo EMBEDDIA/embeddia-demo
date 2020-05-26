@@ -19,13 +19,17 @@
   </div>
 
   <div class="content">
-    <nz-space [nzSize]="50" nzDirection="vertical" class="container">
+    <div class="container" >
       <nz-spin *ngIf="isLoading" [nzSize]="'large'" [nzSpinning]="isLoading" nzSimple></nz-spin>
-      <nz-space-item *ngFor="let item of analyzersDisplay" class="flex-row status-block">
-        <h1>{{item.display_name}}</h1>
-        <nz-tag *ngIf="this.results.includes(item.value)" nzColor="#ef5350">BLOCK</nz-tag>
-        <nz-tag *ngIf="!this.results.includes(item.value)" nzColor="#66bb6a">OK</nz-tag>
-      </nz-space-item>
-    </nz-space>
+      <nz-space nzDirection="vertical" nzSize="large">
+        <nz-space-item *ngFor="let item of analyzers" class="flex-row status-block">
+          <h1>{{item}}</h1>
+          <div *ngIf="this.results[item].length > 0">
+            <nz-tag *ngFor="let tag of this.results[item]" class="margin-10 m-r-a" nzColor="#ef5350">{{tag}}</nz-tag>
+          </div>
+          <nz-tag *ngIf="this.results[item].length === 0" class="margin-10 m-r-a" nzColor="#66bb6a">OK</nz-tag>
+        </nz-space-item>
+      </nz-space>
+    </div>
   </div>
 </div>

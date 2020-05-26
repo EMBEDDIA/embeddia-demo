@@ -64,6 +64,8 @@ export class DashboardComponent implements OnInit {
       });
       this.customColors.push({name: locName, value: this.COLORS.LOC});
     }
+    this.selectedFact = ['PER', 'LOC', 'KEYWORD'];
+    this.factSelected(this.selectedFact);
     this.calculateProgressBarSize();
 
   }
@@ -110,6 +112,6 @@ export class DashboardComponent implements OnInit {
         return split[0].substr(0, 16) + (split.length > 1 ? '...' : '');
       }
     }
-    return val.length === stringValue.length ? stringValue : stringValue + '...';
+    return val.length === stringValue.trim().length ? stringValue : stringValue + '...';
   }
 }
