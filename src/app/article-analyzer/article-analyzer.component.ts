@@ -6,17 +6,17 @@ import {UtilityFunctions} from '../shared/UtilityFunctions';
 
 @Component({
   selector: 'app-entity-extraction',
-  templateUrl: './entity-extraction.component.html',
-  styleUrls: ['./entity-extraction.component.less']
+  templateUrl: './article-analyzer.component.html',
+  styleUrls: ['./article-analyzer.component.less']
 })
-export class EntityExtractionComponent implements OnInit {
+export class ArticleAnalyzerComponent implements OnInit {
   readonly COLORS = UtilityFunctions.COLORS;
   readonly COLORKEYS = Object.keys(this.COLORS);
   text: string;
   results: { [x: string]: any[] } = {};
   resultSource: string[];
   isLoading = false;
-
+  language: string;
   constructor(private analyzersService: AnalyzersService,
               private logService: LogService) {
 
@@ -41,6 +41,7 @@ export class EntityExtractionComponent implements OnInit {
         if (x.tags) {
           this.populateResultData(UtilityFunctions.getDistinctByProperty(x.tags, (y) => y.tag));
         }
+        this.language = x.language;
         console.log(this.results);
       } else if (x instanceof HttpErrorResponse) {
         this.logService.messageHttpError(x);

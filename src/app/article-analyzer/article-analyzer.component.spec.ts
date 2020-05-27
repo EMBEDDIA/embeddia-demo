@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { EntityExtractionComponent } from './entity-extraction.component';
+import { ArticleAnalyzerComponent } from './article-analyzer.component';
 
-describe('EntityExtractionComponent', () => {
-  let component: EntityExtractionComponent;
-  let fixture: ComponentFixture<EntityExtractionComponent>;
+describe('ArticleAnalyzerComponent', () => {
+  let component: ArticleAnalyzerComponent;
+  let fixture: ComponentFixture<ArticleAnalyzerComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ EntityExtractionComponent ]
+      declarations: [ ArticleAnalyzerComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(EntityExtractionComponent);
+    fixture = TestBed.createComponent(ArticleAnalyzerComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

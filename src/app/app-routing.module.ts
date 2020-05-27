@@ -1,21 +1,21 @@
 import {NgModule} from '@angular/core';
 import {RouterModule, Routes} from '@angular/router';
-import {HateSpeechDetectionComponent} from './hate-speech-detection/hate-speech-detection.component';
-import {EntityExtractionComponent} from './entity-extraction/entity-extraction.component';
+import {CommentAnalyzerComponent} from './comment-analyzer/comment-analyzer.component';
+import {ArticleAnalyzerComponent} from './article-analyzer/article-analyzer.component';
 import {ArticleGenerationComponent} from './article-generation/article-generation.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 
 
 const routes: Routes = [
   {
-    path: 'hate-speech-detection',
+    path: 'comment-analyzer',
     pathMatch: 'full',
-    component: HateSpeechDetectionComponent
+    component: CommentAnalyzerComponent
   },
   {
-    path: 'entity-extraction',
+    path: 'article-analyzer',
     pathMatch: 'full',
-    component: EntityExtractionComponent
+    component: ArticleAnalyzerComponent
   },
   {
     path: 'article-generation',

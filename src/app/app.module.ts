@@ -19,8 +19,8 @@ import {NzSpinModule} from 'ng-zorro-antd/spin';
 import {NzTagModule} from 'ng-zorro-antd/tag';
 import {NzToolTipModule} from 'ng-zorro-antd/tooltip';
 import {NzTypographyModule} from 'ng-zorro-antd/typography';
-import {HateSpeechDetectionComponent} from './hate-speech-detection/hate-speech-detection.component';
-import {EntityExtractionComponent} from './entity-extraction/entity-extraction.component';
+import {CommentAnalyzerComponent} from './comment-analyzer/comment-analyzer.component';
+import {ArticleAnalyzerComponent} from './article-analyzer/article-analyzer.component';
 import {ArticleGenerationComponent} from './article-generation/article-generation.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
 import {NzSpaceModule} from 'ng-zorro-antd/space';
@@ -33,8 +33,8 @@ registerLocaleData(en);
 @NgModule({
   declarations: [
     AppComponent,
-    HateSpeechDetectionComponent,
-    EntityExtractionComponent,
+    CommentAnalyzerComponent,
+    ArticleAnalyzerComponent,
     ArticleGenerationComponent,
     DashboardComponent
   ],

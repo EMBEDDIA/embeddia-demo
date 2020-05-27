@@ -5,10 +5,10 @@ import {HttpErrorResponse} from '@angular/common/http';
 
 @Component({
   selector: 'app-hate-speech-detection',
-  templateUrl: './hate-speech-detection.component.html',
-  styleUrls: ['./hate-speech-detection.component.less']
+  templateUrl: './comment-analyzer.component.html',
+  styleUrls: ['./comment-analyzer.component.less']
 })
-export class HateSpeechDetectionComponent implements OnInit {
+export class CommentAnalyzerComponent implements OnInit {
   text: string;
   analyzers: string[] = [];
   results: any = {};

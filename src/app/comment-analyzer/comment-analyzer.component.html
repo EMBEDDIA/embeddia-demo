@@ -19,8 +19,8 @@
   </div>
 
   <div class="content">
+    <nz-spin *ngIf="isLoading" [nzSize]="'large'" [nzSpinning]="isLoading" nzSimple></nz-spin>
     <div class="container" >
-      <nz-spin *ngIf="isLoading" [nzSize]="'large'" [nzSpinning]="isLoading" nzSimple></nz-spin>
       <nz-space nzDirection="vertical" nzSize="large">
         <nz-space-item *ngFor="let item of analyzers" class="flex-row status-block">
           <h1>{{item}}</h1>

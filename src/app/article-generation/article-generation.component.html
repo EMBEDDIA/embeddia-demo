@@ -54,6 +54,7 @@
     </form>
   </div>
   <div class="content">
+    <nz-spin *ngIf="isLoading" [nzSize]="'large'" [nzSpinning]="isLoading" nzSimple></nz-spin>
     <div class="container" *ngIf="this.results">
       <h1 class="mw">{{this.results.header}}</h1>
       <div [innerHTML]="this.results.body">
