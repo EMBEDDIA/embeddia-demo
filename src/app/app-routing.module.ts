@@ -4,6 +4,7 @@ import {CommentAnalyzerComponent} from './comment-analyzer/comment-analyzer.comp
 import {ArticleAnalyzerComponent} from './article-analyzer/article-analyzer.component';
 import {ArticleGenerationComponent} from './article-generation/article-generation.component';
 import {DashboardComponent} from './dashboard/dashboard.component';
+import {HealthComponent} from './health/health.component';
 
 
 const routes: Routes = [
@@ -26,6 +27,11 @@ const routes: Routes = [
     path: 'dashboard',
     pathMatch: 'full',
     component: DashboardComponent
+  },
+  {
+    path: '',
+    pathMatch: 'full',
+    component: HealthComponent
   },
   {
     path: '**',

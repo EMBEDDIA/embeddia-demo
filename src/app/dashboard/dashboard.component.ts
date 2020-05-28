@@ -34,7 +34,7 @@ export class DashboardComponent implements OnInit {
   isLoading = false;
   selectedDataset: string;
   selectedRange;
-  dataset = [{value: 'test', display_name: 'test2'}, {value: 'test5', display_name: 'test3'}];
+  dataset = [{value: 'test', display_name: 'test2'}];
   customColors = [];
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
@@ -49,23 +49,23 @@ export class DashboardComponent implements OnInit {
     for (let f = 0; f <= 10; f++) {
       const perName = Math.random().toString(36).substring(Math.random() * 10);
       this.tags.PER.push({
-        name: perName, value: Math.floor(Math.random() * 100)
+        name: perName, value: Math.floor(Math.random() * 100), extra: {date: this.randomDate(new Date(2012, 0, 1), new Date())}
       });
       this.customColors.push({name: perName, value: this.COLORS.PER});
       const keyName = Math.random().toString(36).substring(Math.random() * 10);
       this.tags.KEYWORD.push({
-        name: keyName, value: Math.floor(Math.random() * 100)
+        name: keyName, value: Math.floor(Math.random() * 100), extra: {date: this.randomDate(new Date(2012, 0, 1), new Date())}
       });
       this.customColors.push({name: keyName, value: this.COLORS.KEYWORD});
       const locName = Math.random().toString(36).substring(Math.random() * 10);
       this.tags.LOC.push({
         name: locName,
-        value: Math.floor(Math.random() * 100)
+        value: Math.floor(Math.random() * 100), extra: {date: this.randomDate(new Date(2012, 0, 1), new Date())}
       });
       this.customColors.push({name: locName, value: this.COLORS.LOC});
     }
-    this.selectedFact = ['PER', 'LOC', 'KEYWORD'];
-    this.factSelected(this.selectedFact);
+    this.selectedDataset = this.dataset[0].value;
+    this.selectedRange = [new Date(2012, 0, 1), new Date()];
     this.calculateProgressBarSize();
 
   }
@@ -75,7 +75,7 @@ export class DashboardComponent implements OnInit {
     if (windowHeight <= 790) {
       this.blockedByModelProgressWidth = 88;
       this.commentsOkProgressWidth = 108;
-    }else if (windowHeight <= 876) {
+    } else if (windowHeight <= 876) {
       this.blockedByModelProgressWidth = 100;
       this.commentsOkProgressWidth = 115;
     } else if (windowHeight <= 960) {
@@ -87,19 +87,22 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  factSelected(val) {
+  getSelectedFacts(facts, dateRange: [Date, Date], data): any[] {
     const temp = [];
-    for (const key of val) {
-      temp.push(...this.tags[key]);
+    for (const key of facts) {
+      if (data[key]) {
+        temp.push(...data[key].filter(y => y.extra.date.getTime() >= dateRange[0].getTime() && y.extra.date.getTime() <= dateRange[1].getTime()));
+      }
     }
     temp.sort((a, b) => (a.value < b.value) ? 1 : -1);
-    this.graphData = temp;
-    console.log(this.graphData);
+    return temp;
   }
 
   submitForm() {
-    console.log(this.selectedRange);
-    console.log(this.selectedDataset);
+    this.isLoading = true;
+    this.selectedFact = ['PER', 'LOC', 'KEYWORD'];
+    this.graphData = this.getSelectedFacts(this.selectedFact, this.selectedRange, this.tags);
+    this.isLoading = false;
   }
 
   formatYAxisTicks(val) {
@@ -114,4 +117,9 @@ export class DashboardComponent implements OnInit {
     }
     return val.length === stringValue.trim().length ? stringValue : stringValue + '...';
   }
+
+  randomDate(start, end) {
+    return new Date(start.getTime() + Math.random() * (end.getTime() - start.getTime()));
+  }
+
 }

@@ -28,6 +28,7 @@ import {NzMenuModule, NzProgressModule} from 'ng-zorro-antd';
 import {BarChartModule} from '@swimlane/ngx-charts';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
+import { HealthComponent } from './health/health.component';
 registerLocaleData(en);
 
 @NgModule({
@@ -36,7 +37,8 @@ registerLocaleData(en);
     CommentAnalyzerComponent,
     ArticleAnalyzerComponent,
     ArticleGenerationComponent,
-    DashboardComponent
+    DashboardComponent,
+    HealthComponent
   ],
   imports: [
     BrowserModule,
