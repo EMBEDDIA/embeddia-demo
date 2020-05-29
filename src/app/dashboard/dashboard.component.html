@@ -75,7 +75,7 @@
     <div class="container">
       <h1>Trending Entities & Keywords in Articles</h1>
       <div class="flex-row mw entities-actions">
-        <nz-select (ngModelChange)="getSelectedFacts($event, selectedRange, tags)" [(ngModel)]="selectedFact"
+        <nz-select (ngModelChange)="factSelectionChanged($event)" [(ngModel)]="selectedFact"
                    class="fact-select"
                    nzMaxTagCount="2"
                    nzMode="multiple" nzPlaceHolder="Choose">

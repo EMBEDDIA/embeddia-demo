@@ -29,6 +29,8 @@ import {BarChartModule} from '@swimlane/ngx-charts';
 import {NzSwitchModule} from 'ng-zorro-antd/switch';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { HealthComponent } from './health/health.component';
+import { NzCardModule } from 'ng-zorro-antd/card';
+import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
 registerLocaleData(en);
 
 @NgModule({
@@ -62,6 +64,8 @@ registerLocaleData(en);
     NzProgressModule,
     NzSwitchModule,
     BarChartModule,
+    NzCardModule,
+    NzSkeletonModule,
     BrowserAnimationsModule
   ],
   providers: [{provide: NZ_I18N, useValue: en_GB}],

@@ -22,7 +22,6 @@
     <nz-spin *ngIf="isLoading" [nzSize]="'large'" [nzSpinning]="isLoading" nzSimple></nz-spin>
     <ng-container *ngIf="resultSource?.length > 0 && !this.isLoading">
       <div class="legend">
-        <span>Language: {{language}}</span>
         <div>
           <nz-tag *ngFor="let color of COLORKEYS" [nzColor]="COLORS[color]">{{color}}
           </nz-tag>
@@ -41,6 +40,9 @@
               </nz-tag>
             </ng-container>
           </div>
+        </div>
+        <div>
+          <span>Language: {{language}}</span>
         </div>
       </div>
     </ng-container>

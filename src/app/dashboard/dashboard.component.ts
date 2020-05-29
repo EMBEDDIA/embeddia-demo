@@ -1,6 +1,12 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, HostListener, OnInit} from '@angular/core';
 import {UtilityFunctions} from '../shared/UtilityFunctions';
 
+interface GraphData {
+  name: string;
+  value: number;
+  extra: { date: Date };
+}
+
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
@@ -13,7 +19,7 @@ export class DashboardComponent implements OnInit {
   strokeWidth = 9; // %
   blockedByModelProgressWidth = 0;
   commentsOkProgressWidth = 0;
-  tags = {
+  tags: { PER: GraphData[], LOC: GraphData[], KEYWORD: GraphData[] } = {
     PER: [],
     LOC: [],
     KEYWORD: []
@@ -28,14 +34,14 @@ export class DashboardComponent implements OnInit {
   showYAxisLabel = true;
   yAxisLabel = 'Entities & Keywords';
   selectedFact;
-  graphData = [];
+  graphData: GraphData[] = [];
 
 
   isLoading = false;
   selectedDataset: string;
   selectedRange;
   dataset = [{value: 'test', display_name: 'test2'}];
-  customColors = [];
+  customColors: { name: string, value: string }[] = [];
 
   constructor(private changeDetectorRef: ChangeDetectorRef) {
   }
@@ -87,8 +93,10 @@ export class DashboardComponent implements OnInit {
     }
   }
 
-  getSelectedFacts(facts, dateRange: [Date, Date], data): any[] {
-    const temp = [];
+  getSelectedFacts(facts, dateRange: [Date, Date], data): GraphData[] {
+    console.log(facts);
+    console.log(data);
+    const temp: GraphData[] = [];
     for (const key of facts) {
       if (data[key]) {
         temp.push(...data[key].filter(y => y.extra.date.getTime() >= dateRange[0].getTime() && y.extra.date.getTime() <= dateRange[1].getTime()));
@@ -96,6 +104,10 @@ export class DashboardComponent implements OnInit {
     }
     temp.sort((a, b) => (a.value < b.value) ? 1 : -1);
     return temp;
+  }
+
+  factSelectionChanged(val) {
+    this.graphData = this.getSelectedFacts(val, this.selectedRange, this.tags);
   }
 
   submitForm() {

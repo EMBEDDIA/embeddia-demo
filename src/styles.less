@@ -1,7 +1,9 @@
 @import "~ng-zorro-antd/ng-zorro-antd.dark.less";
 // @import "../node_modules/ng-zorro-antd/ng-zorro-antd.less";
 @import "library-overrides";
-
+.container-padding{
+  padding: 5%;
+}
 .flex-row {
   display: flex;
   flex-direction: row;
@@ -46,7 +48,7 @@
     width: 100%;
 
     .container {
-      padding: 5%;
+      &:extend(.container-padding);
       display: flex;
       flex-direction: column;
       width: 100%;
@@ -78,6 +80,12 @@
 
 .align-center {
   align-items: center;
+}
+.justify-content-center{
+  justify-content: center;
+}
+.justify-content-space-evenly {
+  justify-content: space-evenly;
 }
 
 .flex-wrap {
