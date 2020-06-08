@@ -28,21 +28,31 @@
         </div>
       </div>
       <div class="container">
-        <div *ngFor="let key of resultSource" class="flex-col align-center">
-          <h1>{{key}}</h1>
-          <div class="tag-wrapper flex-row">
-            <ng-container *ngFor="let item of results[key]">
-              <nz-tag *ngIf="item.tag" nz-tooltip nzColor="{{COLORS['KEYWORD']}}"
-                      nzTooltipTitle="KEYWORD">{{item.tag}}
-              </nz-tag>
-              <nz-tag *ngIf="item.type && item.entity" [nzColor]="COLORS[item.type]" [nzTooltipTitle]="item.type"
-                      nz-tooltip>{{item.entity}}
-              </nz-tag>
-            </ng-container>
+        <div class="flex-col">
+          <nz-radio-group [(ngModel)]="radioValue" nzButtonStyle="solid">
+            <label nz-radio-button nzValue="Tags">Tags</label>
+            <label nz-radio-button nzValue="Text">Text</label>
+          </nz-radio-group>
+          <span class="lang">Language: {{language}}</span>
+        </div>
+        <div [hidden]="radioValue !== 'Tags'">
+          <div *ngFor="let key of resultSource" class="flex-col">
+            <h1>{{key}}</h1>
+            <div class="tag-wrapper flex-row">
+              <ng-container *ngFor="let item of results[key]">
+                <nz-tag *ngIf="item.tag" nz-tooltip nzColor="{{COLORS['KEYWORD']}}"
+                        nzTooltipTitle="KEYWORD">{{item.tag}}
+                </nz-tag>
+                <nz-tag *ngIf="item.type && item.entity" [nzColor]="COLORS[item.type]" [nzTooltipTitle]="item.type"
+                        nz-tooltip>{{item.entity}}
+                </nz-tag>
+              </ng-container>
+            </div>
           </div>
         </div>
-        <div>
-          <span>Language: {{language}}</span>
+        <div [hidden]="radioValue !== 'Text'">
+            <app-highlight
+              [highlightConfig]="{currentColumn: 'text', searcherHighlight: resultTextData.highlight, highlightTextaFacts: true, data: resultTextData}"></app-highlight>
         </div>
       </div>
     </ng-container>

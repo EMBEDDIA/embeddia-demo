@@ -26,11 +26,12 @@ import {DashboardComponent} from './dashboard/dashboard.component';
 import {NzSpaceModule} from 'ng-zorro-antd/space';
 import {NzMenuModule, NzProgressModule} from 'ng-zorro-antd';
 import {BarChartModule} from '@swimlane/ngx-charts';
-import {NzSwitchModule} from 'ng-zorro-antd/switch';
+import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
 import { HealthComponent } from './health/health.component';
 import { NzCardModule } from 'ng-zorro-antd/card';
 import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
+import { HighlightComponent } from './shared/components/highlight/highlight.component';
 registerLocaleData(en);
 
 @NgModule({
@@ -40,7 +41,8 @@ registerLocaleData(en);
     ArticleAnalyzerComponent,
     ArticleGenerationComponent,
     DashboardComponent,
-    HealthComponent
+    HealthComponent,
+    HighlightComponent
   ],
   imports: [
     BrowserModule,
@@ -62,7 +64,7 @@ registerLocaleData(en);
     NzSpinModule,
     NzSpaceModule,
     NzProgressModule,
-    NzSwitchModule,
+    NzRadioModule,
     BarChartModule,
     NzCardModule,
     NzSkeletonModule,

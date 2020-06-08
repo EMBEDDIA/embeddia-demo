@@ -4,7 +4,7 @@
     flex-wrap: wrap;
 
     nz-tag {
-      margin: 5px;
+      margin: 5px 5px 5px 0px;
     }
   }
 
@@ -14,16 +14,26 @@
     justify-content: space-between;
     flex-wrap: wrap;
     align-items: center;
+    margin-left: auto;
     nz-tag {
-      margin: 5px;
+      margin: 5px 5px 5px 0px;
     }
   }
-
-  .container > div {
-    margin-top: 5%;
+  .container{
+    align-items: flex-start;
+    .lang{
+      margin-top: 5px;
+    }
+  }
+  .container > div > div {
+    margin-top: 4%;
   }
 
   h1 {
     font-size: @font-size;
   }
+}
+app-highlight{
+  color: white;
+  font-size: 16px;
 }

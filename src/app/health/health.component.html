@@ -20,13 +20,13 @@
           <label class="fw-medium">DISK SPACE</label>
           <nz-progress [nzPercent]="disk" nzStatus="normal" nzStrokeLinecap="square" nzStrokeWidth="9"
                        nzType="dashboard"></nz-progress>
-          <label class="margin-10">{{diskObj.used | number: '1.0-2'}} / {{diskObj.total | number: '1.0-2'}} {{diskObj.unit}}</label>
+          <label class="margin-10" *ngIf="diskObj">{{diskObj.used | number: '1.0-2'}} / {{diskObj.total | number: '1.0-2'}} {{diskObj.unit}}</label>
         </div>
         <div class="flex-col align-center">
           <label class="fw-medium">MEMORY</label>
           <nz-progress [nzPercent]="memory" nzStatus="normal" nzStrokeLinecap="square" nzStrokeWidth="9"
                        nzType="dashboard"></nz-progress>
-          <label class="margin-10">{{memoryObj.used | number: '1.0-2'}} / {{memoryObj.total | number: '1.0-2'}} {{memoryObj.unit}}</label>
+          <label class="margin-10" *ngIf="memoryObj">{{memoryObj.used | number: '1.0-2'}} / {{memoryObj.total | number: '1.0-2'}} {{memoryObj.unit}}</label>
         </div>
       </div>
     </nz-card>

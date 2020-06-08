@@ -1,6 +1,6 @@
 export class UtilityFunctions {
   static readonly COLORS = {
-    ORG: '#b71c1c',
+    ORG: '#9c019c',
     PER: '#880e4f',
     GPE: '#4a148c',
     LOC: '#311b92',
@@ -8,7 +8,7 @@ export class UtilityFunctions {
     COMPANY: '#006064',
     PHO: '#1b5e20',
     EMAIL: '#3e2723',
-    KEYWORD: '#263238'
+    KEYWORD: '#8a7a00'
   };
 
   static typeGuard<T>(o, className: { new(...args: any[]): T }): o is T {
