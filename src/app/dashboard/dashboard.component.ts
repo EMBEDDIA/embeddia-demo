@@ -19,10 +19,11 @@ export class DashboardComponent implements OnInit {
   strokeWidth = 9; // %
   blockedByModelProgressWidth = 0;
   commentsOkProgressWidth = 0;
-  tags: { PER: GraphData[], LOC: GraphData[], ORG: GraphData[] } = {
-    PER: [],
+  tags: { GPE: GraphData[], LOC: GraphData[], ORG: GraphData[], KEYWORD: GraphData[] } = {
+    GPE: [],
     LOC: [],
-    ORG: []
+    ORG: [],
+    KEYWORD: [],
   };
   tagsKeys = Object.keys(this.tags);
 
@@ -42,130 +43,174 @@ export class DashboardComponent implements OnInit {
   selectedRange;
   dataset = [{value: 'test', display_name: 'test2'}];
   customColors: { name: string, value: string }[] = [];
-  PERVALS =  [
+  KEYWORDVALS = [
     {
-      key: 'Bengals',
-      doc_count: 278
+      key: 'Нарва',
+      doc_count: 15
     },
     {
-      key: 'Kalju',
-      doc_count: 121
+      key: 'Нарва-Йыэсуу',
+      doc_count: 15
     },
     {
-      key: 'Kalev',
-      doc_count: 118
+      key: 'Пярну',
+      doc_count: 15
     },
     {
-      key: 'Levadia',
-      doc_count: 111
+      key: 'Тарту',
+      doc_count: 15
     },
     {
-      key: 'Savisaar',
-      doc_count: 92
+      key: 'Таллинн',
+      doc_count: 14
     },
     {
-      key: 'Koit',
-      doc_count: 83
+      key: 'USA',
+      doc_count: 10
     },
     {
-      key: 'Vettel',
-      doc_count: 82
+      key: 'Baltic',
+      doc_count: 8
     },
     {
-      key: 'Rüütel',
-      doc_count: 78
+      key: 'Donald Trump',
+      doc_count: 8
     },
     {
-      key: 'Edgar Savisaar',
-      doc_count: 75
+      key: 'ФК "Пярну"',
+      doc_count: 6
     },
     {
-      key: 'Anu',
-      doc_count: 73
+      key: 'NATO',
+      doc_count: 3
+    }
+  ];
+  GPEVALS =  [
+    {
+      key: 'Estonia',
+      doc_count: 40
+    },
+    {
+      key: 'Sweden',
+      doc_count: 13
+    },
+    {
+      key: 'Russia',
+      doc_count: 11
+    },
+    {
+      key: 'Ukraine',
+      doc_count: 11
+    },
+    {
+      key: 'Syria',
+      doc_count: 10
+    },
+    {
+      key: 'Turkey',
+      doc_count: 7
+    },
+    {
+      key: 'Italy',
+      doc_count: 6
+    },
+    {
+      key: 'Tallinn',
+      doc_count: 6
+    },
+    {
+      key: 'US',
+      doc_count: 6
+    },
+    {
+      key: 'Greece',
+      doc_count: 5
     }
   ];
   LOCVALS = [
     {
-      key: 'Eesti',
-      doc_count: 2524
+      key: 'Europe',
+      doc_count: 32
     },
     {
-      key: 'Tallinn',
-      doc_count: 541
+      key: 'Mount Kimbie',
+      doc_count: 5
     },
     {
-      key: 'Euroopa',
-      doc_count: 389
+      key: 'Baltic',
+      doc_count: 4
     },
     {
-      key: 'Venemaa',
-      doc_count: 372
+      key: 'Atlantic',
+      doc_count: 2
     },
     {
-      key: 'Soome',
-      doc_count: 323
+      key: 'Earth',
+      doc_count: 2
     },
     {
-      key: 'USA',
-      doc_count: 317
+      key: 'the Baltic Sea',
+      doc_count: 2
     },
     {
-      key: 'Itaalia',
-      doc_count: 285
+      key: 'Baltics',
+      doc_count: 1
     },
     {
-      key: 'Saksamaa',
-      doc_count: 281
+      key: 'Cypress Hill',
+      doc_count: 1
     },
     {
-      key: 'Türgi',
-      doc_count: 223
+      key: 'East',
+      doc_count: 1
     },
     {
-      key: 'Hispaania',
-      doc_count: 216
-    }];
+      key: 'Götland',
+      doc_count: 1
+    }
+  ];
   ORGVALS = [
     {
-      key: 'Keskerakond',
-      doc_count: 196
+      key: 'EU',
+      doc_count: 63
     },
     {
-      key: 'IRL',
-      doc_count: 166
+      key: 'Baltic Live Cam',
+      doc_count: 22
     },
     {
-      key: 'Reformierakond',
-      doc_count: 145
+      key: 'Commission',
+      doc_count: 19
     },
     {
-      key: 'ERR',
-      doc_count: 137
+      key: 'Holy Motors',
+      doc_count: 9
     },
     {
-      key: 'õhtuleht',
-      doc_count: 135
+      key: 'NATO',
+      doc_count: 9
     },
     {
-      key: 'NBA',
-      doc_count: 128
+      key: '@realDonaldTrump',
+      doc_count: 8
     },
     {
-      key: 'ETV',
-      doc_count: 119
+      key: '@ABC',
+      doc_count: 7
     },
     {
-      key: 'Ferrari',
-      doc_count: 101
+      key: 'ABC News',
+      doc_count: 7
     },
     {
-      key: 'TV3',
-      doc_count: 99
+      key: 'Grete Šadeiko (@gretesadeiko',
+      doc_count: 5
     },
     {
-      key: 'MM',
-      doc_count: 83
-    }];
+      key: 'Islam',
+      doc_count: 5
+    }
+  ];
   constructor(private changeDetectorRef: ChangeDetectorRef) {
   }
 
@@ -176,10 +221,10 @@ export class DashboardComponent implements OnInit {
 
   ngOnInit(): void {
     for (let f = 0; f < 10; f++) {
-      this.tags.PER.push({
-        name: this.PERVALS[f].key, value: this.PERVALS[f].doc_count, extra: {date: this.randomDate(new Date(2012, 0, 1), new Date())}
+      this.tags.GPE.push({
+        name: this.GPEVALS[f].key, value: this.GPEVALS[f].doc_count, extra: {date: this.randomDate(new Date(2012, 0, 1), new Date())}
       });
-      this.customColors.push({name: this.PERVALS[f].key, value: this.COLORS.PER});
+      this.customColors.push({name: this.GPEVALS[f].key, value: this.COLORS.PER});
       const keyName = this.ORGVALS[f].key;
       this.tags.ORG.push({
         name: keyName, value: this.ORGVALS[f].doc_count, extra: {date: this.randomDate(new Date(2012, 0, 1), new Date())}
@@ -191,6 +236,13 @@ export class DashboardComponent implements OnInit {
         value: this.LOCVALS[f].doc_count, extra: {date: this.randomDate(new Date(2012, 0, 1), new Date())}
       });
       this.customColors.push({name: locName, value: this.COLORS.LOC});
+
+      const keyWordName = this.KEYWORDVALS[f].key;
+      this.tags.KEYWORD.push({
+        name: keyWordName,
+        value: this.KEYWORDVALS[f].doc_count, extra: {date: this.randomDate(new Date(2012, 0, 1), new Date())}
+      });
+      this.customColors.push({name: keyWordName, value: this.COLORS.KEYWORD});
     }
     this.selectedDataset = this.dataset[0].value;
     this.selectedRange = [new Date(2012, 0, 1), new Date()];
@@ -232,7 +284,7 @@ export class DashboardComponent implements OnInit {
 
   submitForm() {
     this.isLoading = true;
-    this.selectedFact = ['PER', 'LOC', 'ORG'];
+    this.selectedFact = ['GPE', 'LOC', 'ORG', 'KEYWORD'];
     this.graphData = this.getSelectedFacts(this.selectedFact, this.selectedRange, this.tags);
     this.isLoading = false;
   }
