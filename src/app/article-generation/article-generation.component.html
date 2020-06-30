@@ -3,15 +3,35 @@
     <form #generatorForm="ngForm" (ngSubmit)="submitForm()" class="mw" nz-form nzLayout="vertical">
       <nz-form-item>
         <nz-form-control nzErrorTip="This field is required">
+          <nz-form-label nzRequired>Language</nz-form-label>
+          <nz-select
+            (ngModelChange)="languageSelected.next($event)"
+            [(ngModel)]="selectedLanguage"
+            [nzLoading]="!languages"
+            class="mw"
+            name="selectedLanguage"
+            required>
+            <nz-option *ngFor="let item of languages?.languages" [nzLabel]="item"
+                       [nzValue]="item"></nz-option>
+          </nz-select>
+
+        </nz-form-control>
+      </nz-form-item>
+
+      <nz-form-item>
+        <nz-form-control nzErrorTip="This field is required">
 
           <nz-form-label nzRequired>Dataset</nz-form-label>
           <nz-select
+            (ngModelChange)="datasetSelected.next($event)"
             [(ngModel)]="selectedDataset"
+            [nzLoading]="!datasets"
             class="mw"
             name="selectedDataset"
+            [disabled]="!selectedLanguage"
             required>
-            <nz-option *ngFor="let item of dataset" [nzLabel]="item.display_name"
-                       [nzValue]="item.value"></nz-option>
+            <nz-option *ngFor="let item of datasets?.datasets" [nzLabel]="item"
+                       [nzValue]="item"></nz-option>
           </nz-select>
 
         </nz-form-control>
@@ -22,26 +42,13 @@
           <nz-form-label nzRequired>Location</nz-form-label>
           <nz-select
             [(ngModel)]="selectedLocation"
+            [disabled]="!selectedDataset"
+            [nzLoading]="!locations"
             class="mw"
             name="selectedLocation"
             required>
-            <nz-option *ngFor="let item of location" [nzLabel]="item.display_name"
-                       [nzValue]="item.value"></nz-option>
-          </nz-select>
-
-        </nz-form-control>
-      </nz-form-item>
-
-      <nz-form-item>
-        <nz-form-control nzErrorTip="This field is required">
-          <nz-form-label nzRequired>Language</nz-form-label>
-          <nz-select
-            [(ngModel)]="selectedLanguage"
-            class="mw"
-            name="selectedLanguage"
-            required>
-            <nz-option *ngFor="let item of language" [nzLabel]="item.display_name"
-                       [nzValue]="item.value"></nz-option>
+            <nz-option *ngFor="let item of locations?.locations" [nzLabel]="item"
+                       [nzValue]="item"></nz-option>
           </nz-select>
 
         </nz-form-control>
@@ -55,7 +62,7 @@
   </div>
   <div class="content">
     <nz-spin *ngIf="isLoading" [nzSize]="'large'" [nzSpinning]="isLoading" nzSimple></nz-spin>
-    <div class="container" *ngIf="this.results">
+    <div *ngIf="this.results" class="container">
       <h1 class="mw">{{this.results.header}}</h1>
       <div [innerHTML]="this.results.body">
       </div>

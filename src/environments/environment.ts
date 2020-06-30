@@ -5,6 +5,7 @@
 export const environment = {
   apiHost: 'http://dev.texta.ee:8090',
   apiBasePath: '',
+  apiNLG: 'http://dev.texta.ee:5555',
   production: false
 };
 
