@@ -27,5 +27,5 @@ Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protrac
 To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
 
 ## Changing prod build apiurl
-Prodution build default api variables: REST_API_URL_REPLACE and NLG_API_URL_REPLACE
+Production build default api variables: REST_API_URL_REPLACE and NLG_API_URL_REPLACE
 replace these strings in prod build files with desired api url and nlg api url
