@@ -5,7 +5,7 @@ import {LogService} from './log.service';
 import {Observable} from 'rxjs';
 import {GeneratorResponse} from '../shared/types/GeneratorResponse';
 import {catchError, tap} from 'rxjs/operators';
-import {Health} from '../shared/types/Health';
+import {Health, NLGHealth} from '../shared/types/Health';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +13,7 @@ import {Health} from '../shared/types/Health';
 export class CoreService {
 
   apiUrl = environment.apiHost + environment.apiBasePath;
+  nlgUrl = environment.apiNLG;
 
   constructor(private http: HttpClient, private logService: LogService) {
   }
@@ -23,5 +24,12 @@ export class CoreService {
     ).pipe(
       tap(e => this.logService.logStatus(e, 'getHealth')),
       catchError(this.logService.handleError<Health>('getHealth')));
+  }
+  getNLGHealth(): Observable<NLGHealth | HttpErrorResponse> {
+    return this.http.get<NLGHealth>(
+      `${this.nlgUrl}/health/`
+    ).pipe(
+      tap(e => this.logService.logStatus(e, 'getHealth')),
+      catchError(this.logService.handleError<NLGHealth>('getHealth')));
   }
 }

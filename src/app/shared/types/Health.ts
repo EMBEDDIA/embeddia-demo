@@ -29,3 +29,7 @@ export interface Health {
 }
 
 
+export interface NLGHealth {
+  version: string;
+}
+

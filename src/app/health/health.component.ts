@@ -17,7 +17,7 @@ export class HealthComponent implements OnInit, OnDestroy {
   memory = 0;
   memoryObj: Memory;
   diskObj: Disk;
-  services: { key: string, value: boolean }[];
+  services: { key: string, value: boolean }[] = [];
   loading = true;
   destroyed$: Subject<boolean> = new Subject<boolean>();
 
@@ -27,6 +27,13 @@ export class HealthComponent implements OnInit, OnDestroy {
 
   // router reuse strat? endpoint is slow
   ngOnInit(): void {
+    this.coreService.getNLGHealth().subscribe(x => {
+      if (x && !(x instanceof HttpErrorResponse)) {
+        this.services = [...this.services, {key: 'NLG', value: true}];
+      } else if (x) {
+        this.services = [...this.services, {key: 'NLG', value: false}];
+      }
+    });
     this.coreService.getHealth().pipe(takeUntil(this.destroyed$)).subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
         this.memoryObj = x.memory;
@@ -34,10 +41,11 @@ export class HealthComponent implements OnInit, OnDestroy {
         this.cpu = x.cpu.percent;
         this.disk = Math.ceil(x.disk.used / x.disk.total * 100);
         this.memory = Math.ceil(x.memory.used / x.memory.total * 100);
-        this.services = Object.keys(x.services).flatMap(y => [{key: y, value: x.services[y]}]);
+        this.services = [...this.services, ...Object.keys(x.services).flatMap(y => [{key: y, value: x.services[y]}])];
       }
     }, () => null, () => this.loading = false);
   }
+
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();
