@@ -6,12 +6,15 @@
         <nz-form-control nzErrorTip="This field is required">
           <nz-form-label nzRequired>Dataset</nz-form-label>
           <nz-select
-            [(ngModel)]="selectedDataset"
+            [(ngModel)]="selectedDatasets"
+            (nzOpenChange)="datasetSelectOpenChange($event)"
             class="mw"
+            nzMode="multiple"
+            [nzMaxTagCount]="1"
             name="selectedDataset"
             required>
-            <nz-option *ngFor="let item of dataset" [nzLabel]="item.display_name"
-                       [nzValue]="item.value"></nz-option>
+            <nz-option *ngFor="let item of dataset" [nzLabel]="item.index"
+                       [nzValue]="item"></nz-option>
           </nz-select>
         </nz-form-control>
       </nz-form-item>

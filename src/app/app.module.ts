@@ -42,7 +42,7 @@ registerLocaleData(en);
     ArticleGenerationComponent,
     DashboardComponent,
     HealthComponent,
-    HighlightComponent
+    HighlightComponent,
   ],
   imports: [
     BrowserModule,
