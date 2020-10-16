@@ -6,12 +6,12 @@
         <nz-form-control nzErrorTip="This field is required">
           <nz-form-label nzRequired>Dataset</nz-form-label>
           <nz-select
-            [(ngModel)]="selectedDatasets"
             (nzOpenChange)="datasetSelectOpenChange($event)"
-            class="mw"
-            nzMode="multiple"
+            [(ngModel)]="selectedDatasets"
             [nzMaxTagCount]="1"
+            class="mw"
             name="selectedDataset"
+            nzMode="multiple"
             required>
             <nz-option *ngFor="let item of dataset" [nzLabel]="item.index"
                        [nzValue]="item"></nz-option>
@@ -97,6 +97,13 @@
           [yAxisLabel]="yAxisLabel"
           [yAxisTickFormatting]="formatYAxisTicks"
           [yAxis]="showYAxis">
+          <ng-template #tooltipTemplate let-model="model">
+            <div class="tooltip-content">
+              <p style="margin-bottom: 0">{{model?.extra?.factName}}</p>
+              <span class="tooltip-label">{{model.name}}</span>
+              <span class="tooltip-val">{{model.value}}</span>
+            </div>
+          </ng-template>
         </ngx-charts-bar-horizontal>
       </div>
     </div>

@@ -4,7 +4,7 @@ import {CoreService} from '../core/core.service';
 import {environment} from '../../environments/environment';
 import {HttpErrorResponse} from '@angular/common/http';
 import {LogService} from '../core/log.service';
-import {ProjectIndex} from '../shared/types/Project';
+import {Field, ProjectIndex} from '../shared/types/Project';
 import {switchMap} from 'rxjs/operators';
 import {of} from 'rxjs';
 import {newArray} from '@angular/compiler/src/util';
@@ -45,6 +45,7 @@ export class DashboardComponent implements OnInit {
   dataset: ProjectIndex[];
   customColors: { name: string, value: string }[] = [];
   authToken = '';
+  totalDocuments = 0;
 
   constructor(private changeDetectorRef: ChangeDetectorRef, private coreService: CoreService, private logService: LogService) {
   }
@@ -66,8 +67,8 @@ export class DashboardComponent implements OnInit {
     })).subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
         this.dataset = x;
-        this.selectedDatasets = [this.dataset[1]];
-        this.setDateMinMax();
+        this.selectedDatasets = [this.dataset[1], this.dataset[0]];
+        this.setDateMinMax(this.selectedDatasets);
       } else if (x) {
         this.logService.messageHttpError(x);
       }
@@ -78,7 +79,7 @@ export class DashboardComponent implements OnInit {
   // true is opened, false is closed
   datasetSelectOpenChange(val: boolean) {
     if (!val) {
-      this.setDateMinMax();
+      this.setDateMinMax(this.selectedDatasets);
     }
 
   }
@@ -105,45 +106,14 @@ export class DashboardComponent implements OnInit {
     this.graphData.forEach(y => {
       this.customColors.push({name: y.name, value: this.COLORS[y.extra.factName] ? this.COLORS[y.extra.factName] : '#8d8d8d'});
     });
-    console.log(this.graphData);
     this.changeDetectorRef.markForCheck();
   }
 
   submitForm() {
     this.isLoading = true;
+    const query = this.makeAggregationQuery(this.selectedDatasets);
     this.coreService.search({
-      query: {
-        aggs: {
-          agg_fact: {
-            aggs: {
-              agg_fact: {
-                nested: {path: 'texta_facts'},
-                aggs: {
-                  agg_fact: {
-                    terms: {field: 'texta_facts.fact', size: 30},
-                    aggs: {
-                      top_reverse_nested: {reverse_nested: {}},
-                      agg_fact_val: {
-                        terms: {field: 'texta_facts.str_val', size: 30, order: {'fact_val_reverse.doc_count': 'desc'}},
-                        aggs: {fact_val_reverse: {reverse_nested: {}}}
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            filter: {
-              bool: {
-                must: [{bool: {must: [{range: {publishDate: {gte: this.selectedRange[0]}}}, {range: {publishDate: {lte: this.selectedRange[1]}}}]}}],
-                filter: [],
-                must_not: [],
-                should: [],
-                minimum_should_match: 0
-              }
-            }
-          }
-        }, size: 0
-      },
+      query,
       indices: this.selectedDatasets.map(x => x.index)
     }, environment.projectId, this.authToken).subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
@@ -162,8 +132,8 @@ export class DashboardComponent implements OnInit {
           this.graphData.forEach(y => {
             this.customColors.push({name: y.name, value: this.COLORS[y.extra.factName] ? this.COLORS[y.extra.factName] : '#8d8d8d'});
           });
-          console.log(this.graphData);
         }
+        this.totalDocuments = x.count;
       }
       this.changeDetectorRef.markForCheck();
     });
@@ -207,21 +177,90 @@ export class DashboardComponent implements OnInit {
     return aggregation;
   }
 
-  private setDateMinMax() {
-    this.coreService.search({
+  makeAggregationQuery(index: ProjectIndex[]) {
+    const dateFields: Field[] = [];
+    index.forEach(x => {
+      const dateField = x.fields.find(y => y.type === 'date');
+      if (dateField) {
+        dateFields.push(dateField);
+      }
+    });
+    const body = {
       query: {
         aggs: {
-          min_date: {min: {field: 'publishDate', format: 'yyyy-MM-dd'}},
-          max_date: {max: {field: 'publishDate', format: 'yyyy-MM-dd'}}
+          agg_fact: {
+            aggs: {
+              agg_fact: {
+                nested: {path: 'texta_facts'},
+                aggs: {
+                  agg_fact: {
+                    terms: {field: 'texta_facts.fact', size: 30},
+                    aggs: {
+                      top_reverse_nested: {reverse_nested: {}},
+                      agg_fact_val: {
+                        terms: {field: 'texta_facts.str_val', size: 30, order: {'fact_val_reverse.doc_count': 'desc'}},
+                        aggs: {fact_val_reverse: {reverse_nested: {}}}
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            filter: {
+              bool: {
+                must: [],
+                filter: [],
+                must_not: [],
+                should: [],
+                minimum_should_match: 1
+              }
+            }
+          }
         }, size: 0
-      },
+      }
+    };
+    dateFields.forEach(field => {
+      // @ts-ignore
+      body.query.aggs.agg_fact.filter.bool.should.push({range: {[field.path]: {gte: this.selectedRange[0]}}}, {range: {[field.path]: {lte: this.selectedRange[1]}}});
+    });
+    return body.query;
+  }
+
+  private setDateMinMax(index: ProjectIndex[]) {
+    const dateFields: Field[] = [];
+    index.forEach(x => {
+      const dateField = x.fields.find(y => y.type === 'date');
+      if (dateField) {
+        dateFields.push(dateField);
+      }
+    });
+    const query = {query: {aggs: {}, size: 0}};
+    dateFields.forEach(field => {
+      query.query.aggs[field.path] = {
+        aggs: {
+          min_date: {min: {field: field.path, format: 'yyyy-MM-dd'}},
+          max_date: {max: {field: field.path, format: 'yyyy-MM-dd'}}
+        },
+        filter: {bool: {should: []}}, // if i dont put this here elastic wont like empty nested aggs, hack
+      };
+    });
+    this.coreService.search({
+      query: query.query,
       indices: this.selectedDatasets.map(x => x.index)
     }, environment.projectId, this.authToken).subscribe(x => {
       if (!(x instanceof HttpErrorResponse) && x?.aggs) {
-        const aggs = x.aggs;
-        if (aggs?.min_date.hasOwnProperty('value_as_string') && aggs?.max_date.hasOwnProperty('value_as_string')) {
-          this.selectedRange = [new Date(aggs.min_date.value_as_string), new Date(aggs.max_date.value_as_string)];
+        const minDates: Date[] = [];
+        const maxDates: Date[] = [];
+        for (const key in x.aggs) {
+          if (x.aggs.hasOwnProperty(key)) {
+            const aggs = x.aggs[key];
+            if (aggs?.min_date.hasOwnProperty('value_as_string') && aggs?.max_date.hasOwnProperty('value_as_string')) {
+              minDates.push(new Date(aggs.min_date.value_as_string));
+              maxDates.push(new Date(aggs.max_date.value_as_string));
+            }
+          }
         }
+        this.selectedRange = [minDates.sort((a, b) => a.getTime() - b.getTime())[0], maxDates.sort((a, b) => b.getTime() - a.getTime())[0]];
         this.changeDetectorRef.markForCheck();
       }
     });

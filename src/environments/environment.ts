@@ -8,7 +8,7 @@ export const environment = {
   apiNLG: 'http://dev.texta.ee:5555',
   apiHostTK: 'https://rest-dev.texta.ee',
   apiBasePathTK: '/api/v1/',
-  projectId: 192, // TK project id
+  projectId: 247, // TK project id
   toolkitUsername: 'embeddia-demo',
   toolkitPass: 'embeddia-demo1',
   production: false
