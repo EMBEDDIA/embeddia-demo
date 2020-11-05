@@ -16,7 +16,7 @@ build:
   script:
     - ng build --prod
     - mkdir release
-    - tar -czvf release/embeddia-front.gz dist/embeddia-demo
+    - tar -czvf release/embeddia-front.gz dist/embeddia-front
     - ssh-add <(echo "$STAGING_PRIVATE_KEY")
     - ssh texta-docs@web.texta.ee "mkdir -p /opt/packages/embeddia-front"
     - scp -r release/* texta-docs@web.texta.ee:/opt/packages/embeddia-front
