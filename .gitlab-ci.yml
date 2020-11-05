@@ -1,0 +1,24 @@
+stages:
+  - build
+
+build:
+  image: node:latest
+  stage: build
+  tags:
+    - ci-test
+  before_script:
+    - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
+    - mkdir -p ~/.ssh
+    - eval $(ssh-agent -s)
+    - '[[ -f /.dockerenv ]] && echo -e "Host *\n\tStrictHostKeyChecking no\n\n" > ~/.ssh/config'  
+    - npm install -g @angular/cli
+    - npm ci
+  script:
+    - ng build --prod
+    - mkdir release
+    - tar -czvf release/embeddia-front.gz dist/embeddia-demo
+    - ssh-add <(echo "$STAGING_PRIVATE_KEY")
+    - ssh texta-docs@web.texta.ee "mkdir -p /opt/packages/embeddia-front"
+    - scp -r release/* texta-docs@web.texta.ee:/opt/packages/embeddia-front
+  only:
+    - master
