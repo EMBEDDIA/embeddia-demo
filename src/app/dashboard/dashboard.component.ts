@@ -27,6 +27,10 @@ export class DashboardComponent implements OnInit {
   strokeWidth = 9; // %
   blockedByModelProgressWidth = 0;
   commentsOkProgressWidth = 0;
+  commentsOkPerecent: number | null = 0;
+  monolingualOffensivePercent: number | null = 0;
+  monolingualVeryOffensivePercent: number | null = 0;
+  qmulOffensivePercent: number | null = 0;
   tags: { [key: string]: GraphData[] } = {};
   tagsKeys: string[];
 
@@ -67,7 +71,7 @@ export class DashboardComponent implements OnInit {
     })).subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
         this.dataset = x;
-        this.selectedDatasets = [this.dataset[1], this.dataset[0]];
+        this.selectedDatasets = [this.dataset[0]];
         this.setDateMinMax(this.selectedDatasets);
       } else if (x) {
         this.logService.messageHttpError(x);
@@ -112,6 +116,11 @@ export class DashboardComponent implements OnInit {
   submitForm() {
     this.isLoading = true;
     const query = this.makeAggregationQuery(this.selectedDatasets);
+    this.tags = {};
+    this.monolingualVeryOffensivePercent = null;
+    this.qmulOffensivePercent = null;
+    this.commentsOkPerecent = null;
+    this.monolingualOffensivePercent = null;
     this.coreService.search({
       query,
       indices: this.selectedDatasets.map(x => x.index)
@@ -121,12 +130,26 @@ export class DashboardComponent implements OnInit {
         if (rootAggObj.hasOwnProperty('buckets') && rootAggObj.buckets.length > 0) {
           rootAggObj.buckets.forEach(bucket => {
             this.tags[bucket.key] = bucket.agg_fact_val.buckets.map(y => [{
-              name: y.key,
+              name: `[${bucket.key}]|${y.key}`,
               value: y.fact_val_reverse.doc_count,
-              extra: {factName: bucket.key}
+              extra: {factName: bucket.key, name: y.key}
             }]).flat();
           });
           this.tagsKeys = Object.keys(this.tags);
+          let totalOffensive = 0;
+          if (this.tagsKeys.includes('crosslingual')) {
+            this.qmulOffensivePercent = Math.round(this.tags['crosslingual'][0].value / x.count * 100);
+            totalOffensive += this.tags['crosslingual'][0].value;
+          }
+          if (this.tagsKeys.includes('monolingual')) {
+            this.monolingualOffensivePercent = Math.round(this.tags['monolingual'][0].value / x.count * 100);
+            totalOffensive += this.tags['monolingual'][0].value;
+            this.monolingualVeryOffensivePercent = Math.round(this.tags['monolingual'][1].value / x.count * 100);
+            totalOffensive += this.tags['monolingual'][1].value;
+          }
+          if (totalOffensive > 0) {
+            this.commentsOkPerecent = 100 - Math.round(totalOffensive / x.count * 100);
+          }
           this.selectedFact = this.tagsKeys;
           this.graphData = this.getSelectedFacts(this.tagsKeys, this.tags);
           this.graphData.forEach(y => {
@@ -154,19 +177,15 @@ export class DashboardComponent implements OnInit {
   }
 
   formatYAxisTicks(val) {
-    const split = val.split(' ');
-    let stringValue = '';
+    let split = val.split('|');
     if (split.length > 0 && split[0] === '@#!') { // make placeholder titles empty so they dont show up in barchart
       return '';
     }
-    for (const item of split) {
-      if (stringValue.length + item.length < 16) {
-        stringValue += item + (split.length !== 1 ? ' ' : '');
-      } else if (stringValue === '') {
-        return split[0].substr(0, 16) + (split.length > 1 ? '...' : '');
-      }
-    }
-    return val.length === stringValue.trim().length ? stringValue : stringValue + '...';
+    split.shift();
+    split = split.join('|');
+
+    return split;
+
   }
 
   navNestedAggByKey(aggregation: any, aggregationKey: string): any {
