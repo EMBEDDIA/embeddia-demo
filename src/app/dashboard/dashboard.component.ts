@@ -48,7 +48,6 @@ export class DashboardComponent implements OnInit {
   selectedRange;
   dataset: ProjectIndex[];
   customColors: { name: string, value: string }[] = [];
-  authToken = '';
   totalDocuments = 0;
 
   constructor(private changeDetectorRef: ChangeDetectorRef, private coreService: CoreService, private logService: LogService) {
@@ -60,15 +59,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.coreService.authenticate(environment.toolkitUsername, environment.toolkitPass).pipe(switchMap(resp => {
-      if (resp && !(resp instanceof HttpErrorResponse)) {
-        this.authToken = resp.key;
-        return this.coreService.getProjectIndices(environment.projectId, resp.key);
-      } else if (resp) {
-        this.logService.messageHttpError(resp);
-      }
-      return of(null);
-    })).subscribe(x => {
+    this.coreService.getProjectIndices(+environment.projectId, environment.toolkitToken).subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
         this.dataset = x;
         this.selectedDatasets = [this.dataset[0]];
@@ -124,7 +115,7 @@ export class DashboardComponent implements OnInit {
     this.coreService.search({
       query,
       indices: this.selectedDatasets.map(x => x.index)
-    }, environment.projectId, this.authToken).subscribe(x => {
+    }, +environment.projectId, environment.toolkitToken).subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
         const rootAggObj = this.navNestedAggByKey(x.aggs, 'agg_fact');
         if (rootAggObj.hasOwnProperty('buckets') && rootAggObj.buckets.length > 0) {
@@ -266,7 +257,7 @@ export class DashboardComponent implements OnInit {
     this.coreService.search({
       query: query.query,
       indices: this.selectedDatasets.map(x => x.index)
-    }, environment.projectId, this.authToken).subscribe(x => {
+    }, +environment.projectId, environment.toolkitToken).subscribe(x => {
       if (!(x instanceof HttpErrorResponse) && x?.aggs) {
         const minDates: Date[] = [];
         const maxDates: Date[] = [];

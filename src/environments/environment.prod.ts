@@ -5,7 +5,6 @@ export const environment = {
   apiHostTK: 'EMBEDDIA_TEXTA_HOST',
   apiBasePathTK: '/api/v1',
   projectId: 'EMBEDDIA_TEXTA_PROJECT_ID',
-  toolkitUsername: 'EMBEDDIA_TEXTA_USERNAME',
-  toolkitPass: 'EMBEDDIA_TEXTA_PASSWORD',
+  toolkitToken: 'EMBEDDIA_TEXTA_TOKEN',
   production: true
 };
