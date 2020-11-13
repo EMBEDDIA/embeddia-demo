@@ -1,7 +1,19 @@
 <div class="container">
   <div class="sidebar">
     <form #analyzerForm="ngForm" (ngSubmit)="submitForm()" class="mw" nz-form nzLayout="vertical">
-
+      <nz-form-control nzErrorTip="This field is required">
+        <nz-form-label nzRequired>Analyzer</nz-form-label>
+        <nz-select
+          [(ngModel)]="selectedAnalyzers"
+          [nzMaxTagCount]="1"
+          class="mw"
+          name="selectedAnalyzer"
+          nzMode="multiple"
+          required>
+          <nz-option *ngFor="let item of analyzerOptions" [nzLabel]="item.display_name"
+                     [nzValue]="item.value"></nz-option>
+        </nz-select>
+      </nz-form-control>
       <nz-form-item>
 
         <nz-form-label nzRequired>Text</nz-form-label>
@@ -51,8 +63,8 @@
           </div>
         </div>
         <div [hidden]="radioValue !== 'Text'">
-            <app-highlight
-              [highlightConfig]="{currentColumn: 'text', searcherHighlight: resultTextData.highlight, highlightTextaFacts: true, data: resultTextData}"></app-highlight>
+          <app-highlight
+            [highlightConfig]="{currentColumn: 'text', searcherHighlight: resultTextData.highlight, highlightTextaFacts: true, data: resultTextData}"></app-highlight>
         </div>
       </div>
     </ng-container>

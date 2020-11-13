@@ -7,6 +7,7 @@ import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
 import {HighlightSpan} from '../shared/components/highlight/highlight.component';
 import {KeywordExtractionResponse} from '../shared/types/KeywordExtractionResponse';
+import {Choice} from '../shared/types/AnalyzersOptions';
 
 interface HighlightDataFormat {
   text: string;
@@ -30,6 +31,8 @@ export class ArticleAnalyzerComponent implements OnInit, OnDestroy {
   destroyed$: Subject<boolean> = new Subject<boolean>();
   radioValue: 'Text' | 'Tags' = 'Tags';
   resultTextData: HighlightDataFormat;
+  analyzerOptions: Choice[];
+  selectedAnalyzers: string[];
 
   constructor(private analyzersService: AnalyzersService,
               private logService: LogService) {
@@ -37,13 +40,21 @@ export class ArticleAnalyzerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.analyzersService.getAnalyzersOptions().subscribe(x => {
+      if (x && !(x instanceof HttpErrorResponse)) {
+        this.analyzerOptions = x.actions.POST.analyzers.choices;
+      }
+    });
   }
 
   submitForm() {
     this.isLoading = true;
     this.resultSource = [];
     this.results = {};
-    this.analyzersService.analyzeKeywords({text: this.text}).pipe(takeUntil(this.destroyed$)).subscribe(x => {
+    this.analyzersService.analyzeKeywords({
+      text: this.text,
+      analyzers: this.selectedAnalyzers
+    }).pipe(takeUntil(this.destroyed$)).subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
         this.resultSource = x.analyzers;
         for (const item of this.resultSource) {

@@ -4,6 +4,7 @@ import {LogService} from '../core/log.service';
 import {HttpErrorResponse} from '@angular/common/http';
 import {Subject} from 'rxjs';
 import {takeUntil} from 'rxjs/operators';
+import {Choice} from '../shared/types/AnalyzersOptions';
 
 @Component({
   selector: 'app-hate-speech-detection',
@@ -16,6 +17,8 @@ export class CommentAnalyzerComponent implements OnInit, OnDestroy {
   results: any = {};
   isLoading = false;
   destroyed$: Subject<boolean> = new Subject<boolean>();
+  analyzerOptions: Choice[];
+  selectedAnalyzers: string[];
 
   constructor(private analyzersService: AnalyzersService,
               private logService: LogService) {
@@ -23,13 +26,18 @@ export class CommentAnalyzerComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.analyzersService.getCommentAnalyzersOptions().subscribe(x => {
+      if (x && !(x instanceof HttpErrorResponse)) {
+        this.analyzerOptions = x.actions.POST.analyzers.choices;
+      }
+    });
   }
 
   submitForm() {
     this.isLoading = true;
     this.results = {};
     this.analyzers = [];
-    this.analyzersService.analyzeHateSpeech({text: this.text}).pipe(takeUntil(this.destroyed$)).subscribe(x => {
+    this.analyzersService.analyzeHateSpeech({text: this.text, analyzers: this.selectedAnalyzers}).pipe(takeUntil(this.destroyed$)).subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
         this.analyzers = x.analyzers;
         for (const item of this.analyzers) {
@@ -43,6 +51,7 @@ export class CommentAnalyzerComponent implements OnInit, OnDestroy {
       }
     }, () => null, () => this.isLoading = false);
   }
+
   ngOnDestroy(): void {
     this.destroyed$.next(true);
     this.destroyed$.complete();

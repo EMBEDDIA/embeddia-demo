@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import {Injectable} from '@angular/core';
 import {LogService} from './log.service';
 import {HttpClient, HttpErrorResponse} from '@angular/common/http';
 import {environment} from '../../environments/environment';
@@ -15,7 +15,8 @@ export class AnalyzersService {
 
   apiUrl = environment.apiHost + environment.apiBasePath;
 
-  constructor(private http: HttpClient, private logService: LogService) {}
+  constructor(private http: HttpClient, private logService: LogService) {
+  }
 
   getAnalyzersOptions(): Observable<AnalyzersOptions | HttpErrorResponse> {
     return this.http.options<AnalyzersOptions>(
@@ -23,6 +24,14 @@ export class AnalyzersService {
     ).pipe(
       tap(e => this.logService.logStatus(e, 'getAnalyzersOptions')),
       catchError(this.logService.handleError<AnalyzersOptions>('getAnalyzersOptions')));
+  }
+
+  getCommentAnalyzersOptions(): Observable<AnalyzersOptions | HttpErrorResponse> {
+    return this.http.options<AnalyzersOptions>(
+      `${this.apiUrl}/comment_analyzer/`
+    ).pipe(
+      tap(e => this.logService.logStatus(e, 'getCommentAnalyzersOptions')),
+      catchError(this.logService.handleError<AnalyzersOptions>('getCommentAnalyzersOptions')));
   }
 
   analyzeHateSpeech(body: any): Observable<HateSpeechResponse | HttpErrorResponse> {
