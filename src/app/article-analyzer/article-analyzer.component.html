@@ -34,20 +34,14 @@
     <nz-spin *ngIf="isLoading" [nzSize]="'large'" [nzSpinning]="isLoading" nzSimple></nz-spin>
     <ng-container *ngIf="resultSource?.length > 0 && !this.isLoading">
       <div class="legend">
+        <span class="lang" style="margin-right: auto">Language: {{language}}</span>
         <div>
           <nz-tag *ngFor="let color of COLORKEYS" [nzColor]="COLORS[color]">{{color}}
           </nz-tag>
         </div>
       </div>
       <div class="container">
-        <div class="flex-col">
-          <nz-radio-group [(ngModel)]="radioValue" nzButtonStyle="solid">
-            <label nz-radio-button nzValue="Tags">Tags</label>
-            <label nz-radio-button nzValue="Text">Text</label>
-          </nz-radio-group>
-          <span class="lang">Language: {{language}}</span>
-        </div>
-        <div [hidden]="radioValue !== 'Tags'">
+        <div >
           <div *ngFor="let key of resultSource" class="flex-col">
             <h1>{{key}}</h1>
             <div class="tag-wrapper flex-row">
@@ -62,7 +56,7 @@
             </div>
           </div>
         </div>
-        <div [hidden]="radioValue !== 'Text'">
+        <div style="margin-top: 1em;">
           <app-highlight
             [highlightConfig]="{currentColumn: 'text', searcherHighlight: resultTextData.highlight, highlightTextaFacts: true, data: resultTextData}"></app-highlight>
         </div>
