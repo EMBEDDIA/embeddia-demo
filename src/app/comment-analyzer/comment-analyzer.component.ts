@@ -29,6 +29,8 @@ export class CommentAnalyzerComponent implements OnInit, OnDestroy {
     this.analyzersService.getCommentAnalyzersOptions().subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
         this.analyzerOptions = x.actions.POST.analyzers.choices;
+      } else if (x) {
+        this.logService.messageHttpError(x);
       }
     });
   }
@@ -37,7 +39,10 @@ export class CommentAnalyzerComponent implements OnInit, OnDestroy {
     this.isLoading = true;
     this.results = {};
     this.analyzers = [];
-    this.analyzersService.analyzeHateSpeech({text: this.text, analyzers: this.selectedAnalyzers}).pipe(takeUntil(this.destroyed$)).subscribe(x => {
+    this.analyzersService.analyzeHateSpeech({
+      text: this.text,
+      analyzers: this.selectedAnalyzers
+    }).pipe(takeUntil(this.destroyed$)).subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
         this.analyzers = x.analyzers;
         for (const item of this.analyzers) {
@@ -46,7 +51,7 @@ export class CommentAnalyzerComponent implements OnInit, OnDestroy {
         for (const item of x.tags) {
           this.results[item.source].push(item.tag);
         }
-      } else if (x instanceof HttpErrorResponse) {
+      } else if (x) {
         this.logService.messageHttpError(x);
       }
     }, () => null, () => this.isLoading = false);

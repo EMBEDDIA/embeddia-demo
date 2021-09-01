@@ -4,6 +4,7 @@ import {HttpErrorResponse} from '@angular/common/http';
 import {Disk, Memory} from '../shared/types/Health';
 import {takeUntil} from 'rxjs/operators';
 import {Subject} from 'rxjs';
+import {LogService} from "../core/log.service";
 
 @Component({
   selector: 'app-health',
@@ -21,7 +22,7 @@ export class HealthComponent implements OnInit, OnDestroy {
   loading = true;
   destroyed$: Subject<boolean> = new Subject<boolean>();
 
-  constructor(private coreService: CoreService) {
+  constructor(private coreService: CoreService, private logService: LogService) {
   }
 
 
@@ -42,6 +43,8 @@ export class HealthComponent implements OnInit, OnDestroy {
         this.disk = Math.ceil(x.disk.used / x.disk.total * 100);
         this.memory = Math.ceil(x.memory.used / x.memory.total * 100);
         this.services = [...this.services, ...Object.keys(x.services).flatMap(y => [{key: y, value: x.services[y]}])];
+      } else if (x) {
+        this.logService.messageHttpError(x);
       }
     }, () => null, () => this.loading = false);
   }

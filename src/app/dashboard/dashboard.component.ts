@@ -14,6 +14,7 @@ interface GraphData {
   value: number;
   extra: { factName: string };
 }
+
 /*
 @Component({
   selector: 'app-dashboard',
@@ -99,7 +100,10 @@ export class DashboardComponent implements OnInit {
   factSelectionChanged(val) {
     this.graphData = this.getSelectedFacts(val, this.tags);
     this.graphData.forEach(y => {
-      this.customColors.push({name: y.name, value: this.COLORS[y.extra.factName] ? this.COLORS[y.extra.factName] : '#8d8d8d'});
+      this.customColors.push({
+        name: y.name,
+        value: this.COLORS[y.extra.factName] ? this.COLORS[y.extra.factName] : '#8d8d8d'
+      });
     });
     this.changeDetectorRef.markForCheck();
   }
@@ -144,10 +148,15 @@ export class DashboardComponent implements OnInit {
           this.selectedFact = this.tagsKeys;
           this.graphData = this.getSelectedFacts(this.tagsKeys, this.tags);
           this.graphData.forEach(y => {
-            this.customColors.push({name: y.name, value: this.COLORS[y.extra.factName] ? this.COLORS[y.extra.factName] : '#8d8d8d'});
+            this.customColors.push({
+              name: y.name,
+              value: this.COLORS[y.extra.factName] ? this.COLORS[y.extra.factName] : '#8d8d8d'
+            });
           });
         }
         this.totalDocuments = x.count;
+      } else if (x) {
+        this.logService.messageHttpError(x);
       }
       this.changeDetectorRef.markForCheck();
     });
@@ -156,7 +165,11 @@ export class DashboardComponent implements OnInit {
 
   getSelectedFacts(tagsKeys: string[], data: { [key: string]: GraphData[] }): GraphData[] {
     // placeholder title hack so the barchart bars dont autoscale when there are less items
-    const temp: GraphData[] = Array(30).fill('').map((_, i) => [{value: 0, name: `@#! ${i}`, extra: {factName: ''}}]).flat();
+    const temp: GraphData[] = Array(30).fill('').map((_, i) => [{
+      value: 0,
+      name: `@#! ${i}`,
+      extra: {factName: ''}
+    }]).flat();
     this.customColors = [];
     for (const key in data) {
       if (tagsKeys.includes(key) && data[key].length > 0) {

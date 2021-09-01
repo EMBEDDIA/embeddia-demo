@@ -43,6 +43,8 @@ export class ArticleAnalyzerComponent implements OnInit, OnDestroy {
     this.analyzersService.getAnalyzersOptions().subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
         this.analyzerOptions = x.actions.POST.analyzers.choices;
+      } else if (x) {
+        this.logService.messageHttpError(x);
       }
     });
   }
