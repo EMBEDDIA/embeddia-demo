@@ -22,7 +22,7 @@ import {NzTypographyModule} from 'ng-zorro-antd/typography';
 import {CommentAnalyzerComponent} from './comment-analyzer/comment-analyzer.component';
 import {ArticleAnalyzerComponent} from './article-analyzer/article-analyzer.component';
 import {ArticleGenerationComponent} from './article-generation/article-generation.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
+/*import {DashboardComponent} from './dashboard/dashboard.component';*/
 import {NzSpaceModule} from 'ng-zorro-antd/space';
 import {NzMenuModule, NzProgressModule} from 'ng-zorro-antd';
 import {BarChartModule} from '@swimlane/ngx-charts';
@@ -40,7 +40,7 @@ registerLocaleData(en);
     CommentAnalyzerComponent,
     ArticleAnalyzerComponent,
     ArticleGenerationComponent,
-    DashboardComponent,
+/*    DashboardComponent,*/
     HealthComponent,
     HighlightComponent,
   ],

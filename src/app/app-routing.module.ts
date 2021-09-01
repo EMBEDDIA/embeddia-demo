@@ -3,7 +3,7 @@ import {RouterModule, Routes} from '@angular/router';
 import {CommentAnalyzerComponent} from './comment-analyzer/comment-analyzer.component';
 import {ArticleAnalyzerComponent} from './article-analyzer/article-analyzer.component';
 import {ArticleGenerationComponent} from './article-generation/article-generation.component';
-import {DashboardComponent} from './dashboard/dashboard.component';
+/*import {DashboardComponent} from './dashboard/dashboard.component';*/
 import {HealthComponent} from './health/health.component';
 
 
@@ -23,11 +23,11 @@ const routes: Routes = [
     pathMatch: 'full',
     component: ArticleGenerationComponent
   },
-  {
+/*  {
     path: 'dashboard',
     pathMatch: 'full',
     component: DashboardComponent
-  },
+  },*/
   {
     path: '',
     pathMatch: 'full',

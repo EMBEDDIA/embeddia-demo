@@ -12,15 +12,15 @@ import {newArray} from '@angular/compiler/src/util';
 interface GraphData {
   name: string;
   value: number;
-  extra: { factName: string },
+  extra: { factName: string };
 }
-
+/*
 @Component({
   selector: 'app-dashboard',
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.less'],
   changeDetection: ChangeDetectionStrategy.OnPush
-})
+})*/
 export class DashboardComponent implements OnInit {
   readonly COLORS = UtilityFunctions.COLORS;
   strokeCap: 'round' | 'square' = 'square';
