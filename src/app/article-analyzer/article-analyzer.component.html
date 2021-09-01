@@ -44,7 +44,7 @@
         <div >
           <div *ngFor="let key of resultSource" class="flex-col">
             <h1>{{key}}</h1>
-            <div class="tag-wrapper flex-row">
+            <div class="tag-wrapper flex-row" *ngIf="results[key].length >0">
               <ng-container *ngFor="let item of results[key]">
                 <nz-tag *ngIf="item.tag" nz-tooltip nzColor="{{COLORS['KEYWORD']}}"
                         nzTooltipTitle="KEYWORD">{{item.tag}}
@@ -54,11 +54,12 @@
                 </nz-tag>
               </ng-container>
             </div>
+            <p *ngIf="results[key].length === 0">No entities found</p>
           </div>
         </div>
-        <div style="margin-top: 1em;">
-          <app-highlight
-            [highlightConfig]="{currentColumn: 'text', searcherHighlight: resultTextData.highlight, highlightTextaFacts: true, data: resultTextData}"></app-highlight>
+        <div>
+          <h1>Article Text</h1>
+          <div>{{resultTextData.text}}</div>
         </div>
       </div>
     </ng-container>
