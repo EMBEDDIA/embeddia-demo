@@ -1,19 +1,17 @@
 <div class="container">
   <div class="sidebar">
     <form #analyzerForm="ngForm" (ngSubmit)="submitForm()" class="mw" nz-form nzLayout="vertical">
-      <nz-form-control nzErrorTip="This field is required">
-        <nz-form-label nzRequired>Analyzer</nz-form-label>
-        <nz-select
-          [(ngModel)]="selectedAnalyzers"
-          [nzMaxTagCount]="1"
-          class="mw"
-          name="selectedAnalyzer"
-          nzMode="multiple"
-          required>
-          <nz-option *ngFor="let item of analyzerOptions" [nzLabel]="item.display_name"
-                     [nzValue]="item.value"></nz-option>
-        </nz-select>
-      </nz-form-control>
+      <nz-form-item>
+
+        <nz-form-label>Analyzers</nz-form-label>
+        <nz-checkbox-wrapper style="width: 100%;" (nzOnChange)="selectedAnalyzersChange($event)">
+          <nz-space nzDirection="vertical">
+            <div *ngFor="let item of analyzerOptions" nz-col><label nz-checkbox
+                                                                    [nzValue]="item.value">{{item.display_name}}</label>
+            </div>
+          </nz-space>
+        </nz-checkbox-wrapper>
+      </nz-form-item>
       <nz-form-item>
 
         <nz-form-label nzRequired>Text</nz-form-label>
@@ -41,7 +39,7 @@
         </div>
       </div>
       <div class="container">
-        <div >
+        <div>
           <div *ngFor="let key of resultSource" class="flex-col">
             <h1>{{key}}</h1>
             <div class="tag-wrapper flex-row" *ngIf="results[key].length >0">
@@ -63,5 +61,26 @@
         </div>
       </div>
     </ng-container>
+    <div class="container" *ngIf="!resultSource && !this.isLoading">
+      <h2>Keyword Extractor - TNT-KID (Croatian, Estonian, Latvian)</h2>
+      <p>A supervised method for keyword extraction using a sequence labelling approach.</p>
+      <p>Additional information: <a href="https://github.com/EMBEDDIA/tnt_kid">https://github.com/EMBEDDIA/tnt_kid</a>
+      </p>
+
+      <h2>Keyword Extractor - RaKUn (Multilingual)</h2>
+      <p>An unsupervised method keyword extraction using graph-based approach.</p>
+      <p>Additional information: <a href="https://github.com/EMBEDDIA/RaKUn">https://github.com/EMBEDDIA/RaKUn</a></p>
+
+      <h2>Named Entity Extractor (Croatian)</h2>
+      <p>A supervised method for Named Entity Extractor is based on a BiLSTM with multiple types of embeddings (BERT,
+        FastText and character).</p>
+      <p>Additional information: <a href="https://github.com/EMBEDDIA/bert-bilstm-cnn-crf-ner">https://github.com/EMBEDDIA/bert-bilstm-cnn-crf-ner</a>
+      </p>
+
+      <h2>Named Entity Extractor - TEXTA MLP (Multilingual)</h2>
+      <p>An hybrid method incorporating rule-based and supervised solutions for general entity extraction.</p>
+      <p>Additional information: <a href="https://pypi.org/project/texta-mlp">https://pypi.org/project/texta-mlp</a><a
+        href="https://git.texta.ee/texta/texta-mlp-python"> https://git.texta.ee/texta/texta-mlp-python</a></p>
+    </div>
   </div>
 </div>

@@ -30,9 +30,9 @@ export class HealthComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     this.coreService.getNLGHealth().subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
-        this.services = [...this.services, {key: 'NLG', value: true}];
+        this.services = [...this.services, {key: 'Article Generator', value: true}];
       } else if (x) {
-        this.services = [...this.services, {key: 'NLG', value: false}];
+        this.services = [...this.services, {key: 'Article Generator', value: false}];
       }
     });
     this.coreService.getHealth().pipe(takeUntil(this.destroyed$)).subscribe(x => {

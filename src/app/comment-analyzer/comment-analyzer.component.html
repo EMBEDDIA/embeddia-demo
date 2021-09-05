@@ -1,19 +1,17 @@
 <div class="container">
   <div class="sidebar">
     <form #analyzerForm="ngForm" (ngSubmit)="submitForm()" class="mw" nz-form nzLayout="vertical">
-      <nz-form-control nzErrorTip="This field is required">
-        <nz-form-label nzRequired>Analyzer</nz-form-label>
-        <nz-select
-          [(ngModel)]="selectedAnalyzers"
-          [nzMaxTagCount]="2"
-          class="mw"
-          name="selectedAnalyzer"
-          nzMode="multiple"
-          required>
-          <nz-option *ngFor="let item of analyzerOptions" [nzLabel]="item.display_name"
-                     [nzValue]="item.value"></nz-option>
-        </nz-select>
-      </nz-form-control>
+      <nz-form-item>
+
+        <nz-form-label>Analyzers</nz-form-label>
+        <nz-checkbox-wrapper style="width: 100%;" (nzOnChange)="selectedAnalyzersChange($event)">
+          <nz-space nzDirection="vertical">
+            <div *ngFor="let item of analyzerOptions" nz-col><label nz-checkbox
+                                                                    [nzValue]="item.value">{{item.display_name}}</label>
+            </div>
+          </nz-space>
+        </nz-checkbox-wrapper>
+      </nz-form-item>
       <nz-form-item>
 
         <nz-form-label nzRequired>Text</nz-form-label>
@@ -33,16 +31,32 @@
 
   <div class="content">
     <nz-spin *ngIf="isLoading" [nzSize]="'large'" [nzSpinning]="isLoading" nzSimple></nz-spin>
-    <div class="container" >
+    <div class="container" *ngIf="results && !isLoading">
       <nz-space nzDirection="vertical" nzSize="large">
         <nz-space-item *ngFor="let item of analyzers" class="flex-row status-block">
           <h1>{{item}}</h1>
-          <div *ngIf="this.results[item].length > 0">
+          <div *ngIf="results[item].length > 0">
             <nz-tag *ngFor="let tag of this.results[item]" class="margin-10 m-r-a" nzColor="#ef5350">{{tag}}</nz-tag>
           </div>
-          <nz-tag *ngIf="this.results[item].length === 0" class="margin-10 m-r-a" nzColor="#66bb6a">OK</nz-tag>
+          <nz-tag *ngIf="results[item].length === 0" class="margin-10 m-r-a" nzColor="#66bb6a">OK</nz-tag>
         </nz-space-item>
       </nz-space>
+    </div>
+    <div class="container" *ngIf="!results && !isLoading" style="align-items: flex-start">
+
+      <h2>Comment Moderator - QMUL BERT Model (Cross-lingual)</h2>
+      <p>A supervised method for classifying texts using Cross-lingual BERT. Model trained on manually annotated Tweets
+        in English.</p>
+      <p>Additional information: <a href="https://github.com/EMBEDDIA/tnt_kid">https://github.com/EMBEDDIA/tnt_kid</a>
+      </p>
+
+      <h2>Comment Moderator - TEXTA BERT Model (Estonian)</h2>
+      <p>A supervised method for classifying texts using BERT. Model trained using manually annotated comments and
+        Estonian BERT model.</p>
+      <p>Additional information: <a href="https://pypi.org/project/texta-bert-tagger">https://pypi.org/project/texta-bert-tagger</a><a
+        href="https://git.texta.ee/texta/texta-bert-tagger-python">
+        https://git.texta.ee/texta/texta-bert-tagger-python</a></p>
+
     </div>
   </div>
 </div>

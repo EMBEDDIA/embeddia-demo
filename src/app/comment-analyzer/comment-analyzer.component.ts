@@ -14,7 +14,7 @@ import {Choice} from '../shared/types/AnalyzersOptions';
 export class CommentAnalyzerComponent implements OnInit, OnDestroy {
   text: string;
   analyzers: string[] = [];
-  results: any = {};
+  results: any = undefined;
   isLoading = false;
   destroyed$: Subject<boolean> = new Subject<boolean>();
   analyzerOptions: Choice[];
@@ -37,13 +37,14 @@ export class CommentAnalyzerComponent implements OnInit, OnDestroy {
 
   submitForm() {
     this.isLoading = true;
-    this.results = {};
+    this.results = undefined;
     this.analyzers = [];
     this.analyzersService.analyzeHateSpeech({
       text: this.text,
       analyzers: this.selectedAnalyzers
     }).pipe(takeUntil(this.destroyed$)).subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
+        this.results = {};
         this.analyzers = x.analyzers;
         for (const item of this.analyzers) {
           this.results[item] = [];
@@ -62,4 +63,7 @@ export class CommentAnalyzerComponent implements OnInit, OnDestroy {
     this.destroyed$.complete();
   }
 
+  selectedAnalyzersChange($event: any[]) {
+    this.selectedAnalyzers = $event;
+  }
 }

@@ -63,9 +63,16 @@
   <div class="content">
     <nz-spin *ngIf="isLoading" [nzSize]="'large'" [nzSpinning]="isLoading" nzSimple></nz-spin>
     <div *ngIf="this.results" class="container">
-      <h1 class="mw">{{this.results.header}}</h1>
-      <div [innerHTML]="this.results.body">
+      <h2 class="mw">{{this.results.header}}</h2>
+      <div class="text-container" [innerHTML]="this.results.body">
       </div>
+    </div>
+    <div *ngIf="!this.results && !isLoading" class="container" style="align-items: flex-start">
+      <p>Produces short descriptive texts about the COVID-situation and Eurostat statistics.
+      </p>
+      <p>
+        Additional information: <a href="https://github.com/ljleppan/eu-nlg-prod" target="_blank">https://github.com/ljleppan/eu-nlg-prod</a>
+      </p>
     </div>
   </div>
 </div>

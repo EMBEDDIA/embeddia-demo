@@ -120,4 +120,8 @@ export class ArticleAnalyzerComponent implements OnInit, OnDestroy {
     }
     return temp;
   }
+
+  selectedAnalyzersChange($event: any[]) {
+    this.selectedAnalyzers = $event;
+  }
 }

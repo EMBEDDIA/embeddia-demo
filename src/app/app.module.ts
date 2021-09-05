@@ -24,7 +24,7 @@ import {ArticleAnalyzerComponent} from './article-analyzer/article-analyzer.comp
 import {ArticleGenerationComponent} from './article-generation/article-generation.component';
 /*import {DashboardComponent} from './dashboard/dashboard.component';*/
 import {NzSpaceModule} from 'ng-zorro-antd/space';
-import {NzMenuModule, NzProgressModule} from 'ng-zorro-antd';
+import {NzCheckboxModule, NzMenuModule, NzProgressModule} from 'ng-zorro-antd';
 import {BarChartModule} from '@swimlane/ngx-charts';
 import { NzRadioModule } from 'ng-zorro-antd/radio';
 import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
@@ -68,6 +68,7 @@ registerLocaleData(en);
     BarChartModule,
     NzCardModule,
     NzSkeletonModule,
+    NzCheckboxModule,
     BrowserAnimationsModule
   ],
   providers: [{provide: NZ_I18N, useValue: en_GB}],
