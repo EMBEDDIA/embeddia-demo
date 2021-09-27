@@ -26,13 +26,19 @@ import {ArticleGenerationComponent} from './article-generation/article-generatio
 import {NzSpaceModule} from 'ng-zorro-antd/space';
 import {NzCheckboxModule, NzMenuModule, NzProgressModule} from 'ng-zorro-antd';
 import {BarChartModule} from '@swimlane/ngx-charts';
-import { NzRadioModule } from 'ng-zorro-antd/radio';
-import { NzDatePickerModule } from 'ng-zorro-antd/date-picker';
-import { HealthComponent } from './health/health.component';
-import { NzCardModule } from 'ng-zorro-antd/card';
-import { NzSkeletonModule } from 'ng-zorro-antd/skeleton';
-import { HighlightComponent } from './shared/components/highlight/highlight.component';
+import {NzRadioModule} from 'ng-zorro-antd/radio';
+import {NzDatePickerModule} from 'ng-zorro-antd/date-picker';
+import {HealthComponent} from './health/health.component';
+import {NzCardModule} from 'ng-zorro-antd/card';
+import {NzSkeletonModule} from 'ng-zorro-antd/skeleton';
+import {HighlightComponent} from './shared/components/highlight/highlight.component';
+import {ArrowRightOutline} from '@ant-design/icons-angular/icons';
+import {IconDefinition} from '@ant-design/icons-angular';
+import {NzIconModule} from 'ng-zorro-antd/icon';
+
 registerLocaleData(en);
+
+const icons: IconDefinition[] = [ArrowRightOutline];
 
 @NgModule({
   declarations: [
@@ -40,7 +46,7 @@ registerLocaleData(en);
     CommentAnalyzerComponent,
     ArticleAnalyzerComponent,
     ArticleGenerationComponent,
-/*    DashboardComponent,*/
+    /*    DashboardComponent,*/
     HealthComponent,
     HighlightComponent,
   ],
@@ -69,7 +75,8 @@ registerLocaleData(en);
     NzCardModule,
     NzSkeletonModule,
     NzCheckboxModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    NzIconModule.forRoot(icons),
   ],
   providers: [{provide: NZ_I18N, useValue: en_GB}],
   bootstrap: [AppComponent]

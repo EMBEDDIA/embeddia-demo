@@ -1,14 +1,38 @@
-<div class="flex-col mw mh align-center container-padding">
-  <h1>EMBEDDIA Media Assistant Demonstrator</h1>
-  <nz-spin class="margin-10" [nzSpinning]="loading"></nz-spin>
-  <div *ngIf="!loading">
-    <div class="flex-row flex-wrap" style="justify-content: center;">
-      <div class="margin-10" *ngFor="let service of services">
-        <nz-tag [nzColor]="service.value ? '#66bb6a' : '#ef5350'" class="tag" nz-tooltip
-                [nzTooltipTitle]="service.value ? 'ONLINE' : 'OFFLINE'">{{service.key}}</nz-tag>
-      </div>
+<div class="flex-col mw mh container-padding">
+  <h1 style="align-self: center">EMBEDDIA Media Assistant Demonstrator</h1>
+  <div nz-row [nzGutter]="12">
+    <div nz-col [nzSpan]="8">
+      <nz-card nzTitle="Comment analyzer" [nzExtra]="commentAnalyzerExtra" style="min-height: 172px">
+        <p>Detect offensive comments</p>
+      </nz-card>
+      <ng-template #commentAnalyzerExtra>
+        <button nz-button nzType="primary" [routerLink]="['comment-analyzer']">
+          <i nz-icon nzType="arrow-right"></i>
+        </button>
+      </ng-template>
     </div>
+    <div nz-col [nzSpan]="8">
+      <nz-card nzTitle="Article Analyzer" [nzExtra]="articleAnalyzerExtra" style="min-height: 172px">
+        <p>Extract keywords and names of people, organisations and locations.</p>
+      </nz-card>
+      <ng-template #articleAnalyzerExtra>
 
+        <button nz-button nzType="primary" [routerLink]="['article-analyzer']">
+          <i nz-icon nzType="arrow-right"></i>
+        </button>
+      </ng-template>
+    </div>
+    <div nz-col [nzSpan]="8">
+      <nz-card nzTitle="Article Generator" [nzExtra]="articleGeneratorExtra" style="min-height: 172px">
+        <p>Produces short descriptive texts about the COVID-situation and Eurostat statistics.
+        </p>
+      </nz-card>
+      <ng-template #articleGeneratorExtra>
+        <button nz-button nzType="primary" [routerLink]="['article-generation']" >
+          <i nz-icon nzType="arrow-right"></i>
+        </button>
+      </ng-template>
+    </div>
   </div>
   <div style="margin-top: auto; margin-right: auto;" nz-row>
     <img src="assets/embeddialogo.png" style="height: 90px; width: auto; margin-right: 1em;">
