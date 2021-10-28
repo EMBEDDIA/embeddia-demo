@@ -62,25 +62,46 @@
       </div>
     </ng-container>
     <div class="container" *ngIf="!resultSource && !this.isLoading">
-      <h2>Keyword Extractor - TNT-KID (Croatian, Estonian, Latvian)</h2>
-      <p>A supervised method for keyword extraction using a sequence labelling approach.</p>
-      <p>Additional information: <a href="https://github.com/EMBEDDIA/tnt_kid">https://github.com/EMBEDDIA/tnt_kid</a>
-      </p>
+      <section style="max-width: 800px">
+        <h2>Keyword Extraction</h2>
+        <p>Keyword extraction systems aim to automatically extract the most important keywords in a news article. Named
+          entity recognition systems detect persons, locations and organisations mentioned in text. Upload an article,
+          and try out our article analyser functionalities.
+          <br>The supervised systems learn to recognize the keywords/named entities via training on manually labeled
+          (i.e. supervised) examples, while unsupervised systems (usually with lower performance) do not need any
+          training corpus and can function in any language.
+        </p>
+        <h2>TNT-KID (Croatian, Estonian, Latvian)</h2>
+        <p>
+          TNT-KID is a system for automatic keyword extraction. It was trained on a corpus of articles with
+          human-assigned keywords. For Croatian the annotators were 24sata editors, for Estonian the Ekspress Meedia
+          staff and for Latvian the Latvian Delfi staff. More info (including how to train the system on your data or
+          language) is available <a href="https://github.com/EMBEDDIA/tnt_kid">HERE</a>.
+        </p>
+        <h2>RAKUN (any language)</h2>
+        <p>RAKUN is an automatic system for keyword extraction that does not need any training (it is unsupervised) so
+          it can be used for any language. It detects keywords by turning text into a graph and the most important nodes
+          in the graph mostly turn out to be the keywords.</p>
+        <p>Additional information: <a href="https://github.com/EMBEDDIA/RaKUn">https://github.com/EMBEDDIA/RaKUn</a></p>
 
-      <h2>Keyword Extractor - RaKUn (Multilingual)</h2>
-      <p>An unsupervised method keyword extraction using graph-based approach.</p>
-      <p>Additional information: <a href="https://github.com/EMBEDDIA/RaKUn">https://github.com/EMBEDDIA/RaKUn</a></p>
+        <h2>Named Entity Extraction</h2>
+        <p>Names of people, organizations, and locations are called named entities. These are often the most important
+          pieces of information people search for in articles. Luckily, they can be automatically extracted from text
+          with modern machine learning tools. Our tools use several different modern approaches to extract named
+          entities in several languages.
+        </p>
+        <h2>Named Entity Extractor (Croatian)</h2>
+        <p>The tool extracts named entities (people, places, organizations) using deep neural networks. It was trained
+          on a set of labelled Croatian news articles.</p>
+        <p>Additional information: <a href="https://github.com/EMBEDDIA/bert-bilstm-cnn-crf-ner">https://github.com/EMBEDDIA/bert-bilstm-cnn-crf-ner</a>
+        </p>
 
-      <h2>Named Entity Extractor (Croatian)</h2>
-      <p>A supervised method for Named Entity Extractor is based on a BiLSTM with multiple types of embeddings (BERT,
-        FastText and character).</p>
-      <p>Additional information: <a href="https://github.com/EMBEDDIA/bert-bilstm-cnn-crf-ner">https://github.com/EMBEDDIA/bert-bilstm-cnn-crf-ner</a>
-      </p>
-
-      <h2>Named Entity Extractor - TEXTA MLP (Multilingual)</h2>
-      <p>An hybrid method incorporating rule-based and supervised solutions for general entity extraction.</p>
-      <p>Additional information: <a href="https://pypi.org/project/texta-mlp">https://pypi.org/project/texta-mlp</a><a
-        href="https://git.texta.ee/texta/texta-mlp-python"> https://git.texta.ee/texta/texta-mlp-python</a></p>
+        <h2>Named Entity Extractor - TEXTA MLP (Multilingual)</h2>
+        <p>This tool incorporates several approaches for extraction of named entities (people, organizations, locations)
+          and works for several languages and different types of text.</p>
+        <p>Additional information: <a href="https://pypi.org/project/texta-mlp">https://pypi.org/project/texta-mlp</a><a
+          href="https://git.texta.ee/texta/texta-mlp-python"> https://git.texta.ee/texta/texta-mlp-python</a></p>
+      </section>
     </div>
   </div>
 </div>
