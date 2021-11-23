@@ -2,7 +2,7 @@ stages:
   - build
 
 build:
-  image: node:latest
+  image: node:14.15-stretch
   stage: build
   tags:
     - ci-test
