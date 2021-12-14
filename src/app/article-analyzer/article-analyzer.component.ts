@@ -63,10 +63,10 @@ export class ArticleAnalyzerComponent implements OnInit, OnDestroy {
           this.results[item] = [];
         }
         if (x.entities) {
-          this.populateResultData(UtilityFunctions.getDistinctByProperty(x.entities, (y) => y.entity));
+          this.populateResultData(x.entities);
         }
         if (x.tags) {
-          this.populateResultData(UtilityFunctions.getDistinctByProperty(x.tags, (y) => y.tag));
+          this.populateResultData(x.tags);
         }
         this.language = x.language;
         this.resultTextData = this.toHighlightData(x);
