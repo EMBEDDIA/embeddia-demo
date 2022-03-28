@@ -28,14 +28,14 @@ export class HealthComponent implements OnInit, OnDestroy {
 
   // router reuse strat? endpoint is slow
   ngOnInit(): void {
-    this.coreService.getNLGHealth().subscribe(x => {
+/*    this.coreService.getNLGHealth().subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
         this.services = [...this.services, {key: 'Article Generator', value: true}];
       } else if (x) {
         this.services = [...this.services, {key: 'Article Generator', value: false}];
       }
-    });
-    this.coreService.getHealth().pipe(takeUntil(this.destroyed$)).subscribe(x => {
+    });*/
+/*    this.coreService.getHealth().pipe(takeUntil(this.destroyed$)).subscribe(x => {
       if (x && !(x instanceof HttpErrorResponse)) {
         this.memoryObj = x.memory;
         this.diskObj = x.disk;
@@ -46,7 +46,7 @@ export class HealthComponent implements OnInit, OnDestroy {
       } else if (x) {
         this.logService.messageHttpError(x);
       }
-    }, () => null, () => this.loading = false);
+    }, () => null, () => this.loading = false);*/
   }
 
   ngOnDestroy(): void {

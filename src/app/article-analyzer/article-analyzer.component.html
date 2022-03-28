@@ -71,18 +71,28 @@
           (i.e. supervised) examples, while unsupervised systems (usually with lower performance) do not need any
           training corpus and can function in any language.
         </p>
-        <h2>TNT-KID (Croatian, Estonian, Latvian)</h2>
+        <h2>TNT-KID (Croatian, Estonian, Latvian, Slovenian, English)</h2>
         <p>
           TNT-KID is a system for automatic keyword extraction. It was trained on a corpus of articles with
           human-assigned keywords. For Croatian the annotators were 24sata editors, for Estonian the Ekspress Meedia
-          staff and for Latvian the Latvian Delfi staff. More info (including how to train the system on your data or
-          language) is available <a href="https://github.com/EMBEDDIA/tnt_kid">HERE</a>.
+          staff and for Latvian the Latvian Delfi staff. For Slovenian and English, public datasets were used. More info
+          (including how to train the system on your data or language) is available <a
+          href="https://github.com/EMBEDDIA/tnt_kid" target="_blank">HERE</a>. For Estonian and Latvian, the results of
+          TNT-KID are
+          expanded by tagset
+          matching (as explained <a href="https://aclanthology.org/2021.hackashop-1.4/" target="_blank">HERE</a>).
         </p>
         <h2>RAKUN (any language)</h2>
         <p>RAKUN is an automatic system for keyword extraction that does not need any training (it is unsupervised) so
           it can be used for any language. It detects keywords by turning text into a graph and the most important nodes
           in the graph mostly turn out to be the keywords.</p>
-        <p>Additional information: <a href="https://github.com/EMBEDDIA/RaKUn">https://github.com/EMBEDDIA/RaKUn</a></p>
+        <p>Additional information: <a href="https://github.com/EMBEDDIA/RaKUn" target="_blank">https://github.com/EMBEDDIA/RaKUn</a>
+        </p>
+
+        <h2>BERT (multilingual)</h2>
+        <p>This is a keyword extraction system, trained on datasets of six different languages, and can be used on any
+          language supported by mBERT.</p>
+        <p> More details are available <a href="https://arxiv.org/pdf/2202.06650v1.pdf" target="_blank">HERE</a>.</p>
 
         <h2>Named Entity Extraction</h2>
         <p>Names of people, organizations, and locations are called named entities. These are often the most important
@@ -90,17 +100,13 @@
           with modern machine learning tools. Our tools use several different modern approaches to extract named
           entities in several languages.
         </p>
-        <h2>Named Entity Extractor (Croatian)</h2>
-        <p>The tool extracts named entities (people, places, organizations) using deep neural networks. It was trained
-          on a set of labelled Croatian news articles.</p>
-        <p>Additional information: <a href="https://github.com/EMBEDDIA/bert-bilstm-cnn-crf-ner">https://github.com/EMBEDDIA/bert-bilstm-cnn-crf-ner</a>
-        </p>
 
         <h2>Named Entity Extractor - TEXTA MLP (Multilingual)</h2>
         <p>This tool incorporates several approaches for extraction of named entities (people, organizations, locations)
           and works for several languages and different types of text.</p>
-        <p>Additional information: <a href="https://pypi.org/project/texta-mlp">https://pypi.org/project/texta-mlp</a><a
-          href="https://git.texta.ee/texta/texta-mlp-python"> https://git.texta.ee/texta/texta-mlp-python</a></p>
+        <p>Additional information: <a href="https://pypi.org/project/texta-mlp" target="_blank">https://pypi.org/project/texta-mlp</a><a
+          href="https://git.texta.ee/texta/texta-mlp-python" target="_blank">
+          https://git.texta.ee/texta/texta-mlp-python</a></p>
       </section>
     </div>
   </div>

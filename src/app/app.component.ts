@@ -1,4 +1,6 @@
 import { Component } from '@angular/core';
+// @ts-ignore
+import packageJson from '../../package.json';
 
 @Component({
   selector: 'app-root',
@@ -6,5 +8,7 @@ import { Component } from '@angular/core';
   styleUrls: ['./app.component.less']
 })
 export class AppComponent {
+  GUI_VERSION = packageJson.version;
+
   title = 'embeddia-front';
 }
